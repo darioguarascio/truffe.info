@@ -50,6 +50,8 @@ Il push di un tag `v*` (es. `v2.0.0`) attiva la GitHub Action che:
 | `POSTGRES_USER` | User PostgreSQL produzione |
 | `POSTGRES_PASSWORD` | Password PostgreSQL produzione |
 | `POSTGRES_DB` | Nome database (default: truffe) |
+| `POSTGRES_HOST` | Host PostgreSQL (default: `postgresql`, nome servizio Docker Compose) |
+| `POSTGRES_PORT` | Porta PostgreSQL (default: `5432`) |
 | `APP_PORT` | Porta esposta (default: 4321) |
 
 ## Licenza

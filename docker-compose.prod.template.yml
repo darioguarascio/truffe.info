@@ -25,7 +25,7 @@ services:
     ports:
       - "${APP_PORT:-4321}:4321"
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB:-truffe}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST:-postgresql}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-truffe}
       HOST: 0.0.0.0
       PORT: 4321
       UPLOAD_DIR: /app/uploads
