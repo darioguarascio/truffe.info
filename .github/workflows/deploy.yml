@@ -75,7 +75,7 @@ jobs:
             echo "POSTGRES_DB=${{ secrets.POSTGRES_DB || 'truffe' }}" >> .env
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST || 'postgresql' }}" >> .env
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT || '5432' }}" >> .env
-            echo "APP_PORT=${{ secrets.APP_PORT || '4321' }}" >> .env
+            echo "APP_PORT=${{ secrets.APP_PORT || '127.0.0.1:8012' }}" >> .env
             echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
             echo "SMTP_PORT=${{ secrets.SMTP_PORT || '587' }}" >> .env
             echo "SMTP_SECURE=${{ secrets.SMTP_SECURE || 'false' }}" >> .env
