@@ -1,14 +1,18 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <PageLayout
   title="Chi siamo | Truffe.info"
   description="Truffe.info è un progetto open source dedicato alla raccolta e diffusione di informazioni sulle truffe in Italia."
 >
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <h1 class="font-display text-4xl text-ink mb-6">Chi siamo</h1>
+  <PageHero
+    eyebrow="Il progetto"
+    title="Chi siamo"
+  />
 
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
     <div class="prose-truffe">
       <p>
         <strong>Truffe.info</strong> nasce dall'esperienza diretta con le truffe online in Italia
@@ -33,14 +37,14 @@ import PageLayout from '../layouts/PageLayout.astro';
       <h2>Open source</h2>
       <p>
         Il codice sorgente è pubblico e disponibile su
-        <a href="https://github.com/darioguarascio/truffe.info" class="text-trust hover:underline" target="_blank" rel="noopener">GitHub</a>.
+        <a href="https://github.com/darioguarascio/truffe.info" target="_blank" rel="noopener">GitHub</a>.
         Chiunque può contribuire, segnalare bug o proporre miglioramenti.
       </p>
 
       <h2>Contatti</h2>
       <p>
         Per segnalazioni tecniche o contributi al progetto, apri una issue su GitHub.
-        Per segnalare una truffa, usa il <a href="/segnala" class="text-trust hover:underline">modulo dedicato</a>.
+        Per segnalare una truffa, usa il <a href="/segnala">modulo dedicato</a>.
       </p>
     </div>
   </div>

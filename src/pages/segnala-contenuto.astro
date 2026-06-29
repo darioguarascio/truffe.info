@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 
 const urlParam = Astro.url.searchParams.get('url') ?? '';
 ---
@@ -8,17 +9,14 @@ const urlParam = Astro.url.searchParams.get('url') ?? '';
   title="Segnala un contenuto | Truffe.info"
   description="Segnala contenuti su Truffe.info che ritieni diffamatori, falsi o che violano la privacy."
 >
-  <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <header class="mb-8">
-      <h1 class="font-display text-3xl md:text-4xl text-ink mb-2">Segnala un contenuto</h1>
-      <p class="text-ink-muted">
-        Usa questo modulo se ritieni che un contenuto pubblicato su Truffe.info sia illecito,
-        diffamatorio, contenga dati personali non consentiti o violi le nostre
-        <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
-      </p>
-    </header>
+  <PageHero
+    eyebrow="Moderazione"
+    title="Segnala un contenuto"
+    description="Usa questo modulo se ritieni che un contenuto pubblicato su Truffe.info sia illecito, diffamatorio, contenga dati personali non consentiti o violi le nostre linee guida."
+  />
 
-    <form id="report-form" class="bg-white rounded-xl shadow-card border border-ink/5 p-6 md:p-8 space-y-5">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 pb-12 md:pb-16">
+    <form id="report-form" class="glass-card p-6 md:p-8 space-y-5">
       <div>
         <label class="form-label" for="url">URL del contenuto *</label>
         <input type="url" id="url" name="url" class="form-input" required placeholder="https://truffe.info/truffe/..." value={urlParam} />
@@ -42,7 +40,7 @@ const urlParam = Astro.url.searchParams.get('url') ?? '';
         <p class="form-hint">Minimo 20 caratteri. Indica i passaggi specifici del contenuto che ritieni problematici.</p>
       </div>
 
-      <hr class="border-ink/10" />
+      <hr class="border-white/[0.06]" />
 
       <div>
         <label class="form-label" for="name">Il tuo nome (opzionale)</label>
@@ -55,13 +53,18 @@ const urlParam = Astro.url.searchParams.get('url') ?? '';
         <p class="form-hint">Per ricevere aggiornamenti sull'esito della segnalazione</p>
       </div>
 
-      <div id="form-error" class="hidden p-3 bg-alert-soft text-alert text-sm rounded-lg"></div>
+      <div id="form-error" class="hidden p-3 bg-alert/10 border border-alert/20 text-alert text-sm rounded-xl"></div>
 
       <button type="submit" class="btn-primary w-full">Invia segnalazione</button>
     </form>
 
-    <div id="success-message" class="hidden bg-white rounded-xl shadow-card border border-ink/5 p-8 text-center mt-8">
-      <h2 class="font-display text-xl text-ink mb-2">Segnalazione ricevuta</h2>
+    <div id="success-message" class="hidden glass-card p-8 text-center mt-8">
+      <div class="w-14 h-14 bg-trust/10 border border-trust/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-7 h-7 text-trust" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <h2 class="font-display text-xl font-semibold text-ink mb-2">Segnalazione ricevuta</h2>
       <p class="text-sm text-ink-muted mb-4">
         Esamineremo il contenuto segnalato e provvederemo in tempi ragionevoli,
         come previsto dalla nostra procedura di notice-and-takedown.

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -21,20 +21,52 @@
 
   body {
     @apply bg-paper text-ink font-sans antialiased;
+    background-image: theme('backgroundImage.mesh');
+    background-attachment: fixed;
   }
 
   ::selection {
-    @apply bg-accent-soft text-ink;
+    @apply bg-trust/30 text-ink;
   }
 }
 
 @layer components {
+  .site-grid {
+    @apply bg-grid;
+    background-size: 64px 64px;
+  }
+
+  .glass {
+    @apply bg-paper/70 backdrop-blur-xl border border-white/[0.06];
+  }
+
+  .glass-card {
+    @apply bg-paper-card/80 backdrop-blur-sm border border-white/[0.06] rounded-2xl shadow-card;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-trust via-ink to-accent bg-clip-text text-transparent;
+  }
+
+  .gradient-text-warm {
+    @apply bg-gradient-to-r from-trust to-accent bg-clip-text text-transparent;
+  }
+
+  .tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-mono font-medium
+           bg-white/[0.06] text-trust border border-trust/20;
+  }
+
+  .section-label {
+    @apply font-mono text-xs font-medium tracking-[0.2em] uppercase text-trust;
+  }
+
   .prose-truffe {
     @apply text-ink-muted leading-relaxed;
   }
 
   .prose-truffe h2 {
-    @apply font-display text-2xl text-ink mt-10 mb-4;
+    @apply font-display text-2xl font-semibold text-ink mt-12 mb-4 tracking-tight;
   }
 
   .prose-truffe h3 {
@@ -61,23 +93,48 @@
     @apply text-ink font-semibold;
   }
 
+  .prose-truffe a {
+    @apply text-trust hover:text-trust-dark underline underline-offset-4 decoration-trust/30 hover:decoration-trust transition-colors;
+  }
+
   .prose-truffe blockquote {
-    @apply border-l-4 border-accent pl-4 italic text-ink-muted my-6;
+    @apply border-l-2 border-trust/50 pl-5 italic text-ink-muted my-8 bg-trust/5 py-3 pr-4 rounded-r-lg;
+  }
+
+  .prose-truffe code {
+    @apply font-mono text-sm bg-white/[0.06] px-1.5 py-0.5 rounded text-trust;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-alert text-white font-semibold rounded-lg
-           hover:bg-red-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-alert focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-gradient-to-r from-alert to-alert-glow text-white font-semibold rounded-xl
+           shadow-glow-alert hover:brightness-110 transition-all duration-200
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-alert focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-trust border border-trust/20 font-semibold rounded-lg
-           hover:bg-trust-light transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-trust focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           bg-white/[0.04] text-ink border border-white/10 font-semibold rounded-xl
+           hover:bg-white/[0.08] hover:border-trust/30 transition-all duration-200
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-trust focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-ink-muted font-medium rounded-lg
-           hover:bg-paper-warm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-trust;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-ink-muted font-medium rounded-xl
+           hover:bg-white/[0.05] hover:text-ink transition-colors
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-trust;
+  }
+
+  .callout {
+    @apply glass-card p-5 text-sm text-ink-muted;
+  }
+
+  .callout-info {
+    @apply callout border-trust/20 bg-trust/5;
+  }
+
+  .callout-warn {
+    @apply callout border-accent/20 bg-accent/5;
   }
 
   .form-label {
@@ -85,8 +142,8 @@
   }
 
   .form-input {
-    @apply w-full px-4 py-2.5 bg-white border border-ink/10 rounded-lg text-ink
-           placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-trust/30 focus:border-trust transition-colors;
+    @apply w-full px-4 py-3 bg-paper-elevated border border-white/[0.08] rounded-xl text-ink
+           placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-trust/30 focus:border-trust/50 transition-all;
   }
 
   .form-hint {
@@ -96,4 +153,39 @@
   .form-error {
     @apply text-xs text-alert mt-1.5;
   }
+
+  .article-card {
+    @apply relative flex flex-col glass-card overflow-hidden
+           hover:border-trust/25 hover:shadow-lift transition-all duration-300;
+  }
+
+  .article-card::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-trust/50 to-transparent
+           opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+  }
+
+  .page-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6;
+  }
+
+  .animate-on-load {
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out forwards;
+  }
+
+  .animate-on-load-delay {
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 0.12s forwards;
+  }
+
+  .animate-on-load-delay-2 {
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 0.24s forwards;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

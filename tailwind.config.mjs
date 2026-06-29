@@ -5,34 +5,68 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#0f1729',
-          muted: '#3d4f6f',
-          faint: '#6b7d99',
+          DEFAULT: '#eef1f8',
+          muted: '#949db5',
+          faint: '#5e6778',
         },
         paper: {
-          DEFAULT: '#faf8f5',
-          warm: '#f3efe8',
+          DEFAULT: '#060810',
+          warm: '#0c1020',
+          card: '#111827',
+          elevated: '#161f33',
         },
         alert: {
-          DEFAULT: '#c0392b',
-          soft: '#fdecea',
+          DEFAULT: '#ff5c5c',
+          soft: 'rgba(255, 92, 92, 0.12)',
+          glow: '#ff7b7b',
         },
         trust: {
-          DEFAULT: '#1e4d8c',
-          light: '#e8f0fa',
+          DEFAULT: '#2dd4bf',
+          light: 'rgba(45, 212, 191, 0.12)',
+          dark: '#14b8a6',
         },
         accent: {
-          DEFAULT: '#d4a017',
-          soft: '#fef6e0',
+          DEFAULT: '#fbbf24',
+          soft: 'rgba(251, 191, 36, 0.12)',
         },
       },
       fontFamily: {
-        display: ['"Instrument Serif"', 'Georgia', 'serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        card: '0 1px 3px rgba(15, 23, 41, 0.06), 0 8px 24px rgba(15, 23, 41, 0.08)',
-        lift: '0 4px 20px rgba(15, 23, 41, 0.12)',
+        card: '0 0 0 1px rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.4)',
+        lift: '0 0 0 1px rgba(45,212,191,0.2), 0 16px 48px rgba(0,0,0,0.5)',
+        glow: '0 0 40px rgba(45, 212, 191, 0.15)',
+        'glow-alert': '0 0 40px rgba(255, 92, 92, 0.2)',
+      },
+      backgroundImage: {
+        mesh: 'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(45,212,191,0.18), transparent), radial-gradient(ellipse 60% 50% at 100% 0%, rgba(255,92,92,0.12), transparent), radial-gradient(ellipse 50% 40% at 0% 100%, rgba(251,191,36,0.08), transparent)',
+        grid: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        grid: '64px 64px',
+      },
+      animation: {
+        'fade-up': 'fadeUp 0.7s ease-out forwards',
+        'fade-up-delay': 'fadeUp 0.7s ease-out 0.15s forwards',
+        'pulse-ring': 'pulseRing 2.8s ease-out infinite',
+        float: 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeUp: {
+          from: { opacity: '0', transform: 'translateY(20px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseRing: {
+          '0%': { transform: 'scale(0.85)', opacity: '0.6' },
+          '100%': { transform: 'scale(2.2)', opacity: '0' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
       },
     },
   },

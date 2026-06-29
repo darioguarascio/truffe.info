@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { getCollection } from 'astro:content';
 
 const articles = (await getCollection('truffe'))
@@ -10,37 +11,42 @@ const articles = (await getCollection('truffe'))
   title="Tipi di truffa | Truffe.info"
   description="Guide complete sulle truffe più comuni in Italia: phishing, smishing, falso tecnico, truffe romantiche e altro."
 >
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <header class="mb-12">
-      <h1 class="font-display text-4xl text-ink mb-3">Tipi di truffa</h1>
-      <p class="text-ink-muted max-w-2xl">
-        Conosci le tecniche usate dai truffatori per difenderti meglio.
-        Ogni guida spiega come funziona la truffa, i segnali d'allarme e cosa fare.
-      </p>
-    </header>
+  <PageHero
+    eyebrow="Knowledge base"
+    title="Tipi di truffa"
+    description="Conosci le tecniche usate dai truffatori per difenderti meglio. Ogni guida spiega come funziona la truffa, i segnali d'allarme e cosa fare."
+  />
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="page-container py-12 md:py-16">
+    <div class="flex items-center justify-between mb-8">
+      <p class="text-sm font-mono text-ink-faint">{articles.length} guide disponibili</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       {articles.map((article) => (
         <a
           href={`/truffe/${article.id.replace(/\.md$/, '')}`}
-          class="group flex flex-col bg-white rounded-xl shadow-card border border-ink/5 hover:shadow-lift transition-all overflow-hidden"
+          class="group article-card"
         >
-          <div class="h-1.5 bg-gradient-to-r from-trust via-accent to-alert"></div>
+          <div class="h-1 bg-gradient-to-r from-trust/80 via-accent/50 to-alert/60"></div>
           <div class="p-6 flex-1 flex flex-col">
-            <div class="flex flex-wrap gap-2 mb-3">
+            <div class="flex flex-wrap gap-2 mb-4">
               {article.data.tags.map((tag) => (
-                <span class="text-xs font-medium px-2 py-0.5 bg-paper-warm text-ink-muted rounded-full">{tag}</span>
+                <span class="tag">{tag}</span>
               ))}
             </div>
-            <h2 class="font-display text-2xl text-ink group-hover:text-trust transition-colors mb-2">
+            <h2 class="font-display text-2xl font-semibold text-ink group-hover:text-trust transition-colors mb-2">
               {article.data.title}
             </h2>
-            <p class="text-sm text-ink-muted flex-1">{article.data.description}</p>
-            <div class="flex items-center justify-between mt-4 pt-4 border-t border-ink/5">
-              <time datetime={article.data.date.toISOString()} class="text-xs text-ink-faint">
+            <p class="text-sm text-ink-muted flex-1 leading-relaxed">{article.data.description}</p>
+            <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.06]">
+              <time datetime={article.data.date.toISOString()} class="text-xs font-mono text-ink-faint">
                 {article.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
               </time>
-              <span class="text-sm text-trust font-medium group-hover:translate-x-1 transition-transform">Leggi →</span>
+              <span class="text-sm text-trust font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Leggi
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </span>
             </div>
           </div>
         </a>

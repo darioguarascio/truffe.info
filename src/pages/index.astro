@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import RadarHero from '../components/RadarHero.astro';
 import { getCollection } from 'astro:content';
 
 const allArticles = await getCollection('truffe');
@@ -10,45 +11,54 @@ const articles = allArticles
 
 <PageLayout>
   <!-- Hero -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-trust/5 via-paper to-accent-soft/30"></div>
-    <div class="absolute top-0 right-0 w-96 h-96 bg-alert/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+  <section class="relative overflow-hidden border-b border-white/[0.06]">
+    <div class="absolute inset-0 site-grid opacity-30 pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-trust/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-      <div class="max-w-2xl">
-        <p class="text-trust text-sm font-semibold tracking-wide uppercase mb-4">
-          Protezione collettiva
-        </p>
-        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-ink leading-tight mb-6">
-          Aiutaci a smascherare i truffatori
-        </h1>
-        <p class="text-lg text-ink-muted leading-relaxed mb-8">
-          Segnala la tua esperienza e contribuisci al database collettivo
-          di informazioni sulle truffe online in Italia.
-          Anche un tentativo non riuscito fa la differenza.
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/segnala" class="btn-primary">Segnala una truffa</a>
-          <a href="/truffe" class="btn-secondary">Esplora le truffe</a>
+    <div class="page-container py-20 md:py-28 lg:py-32 relative">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div>
+          <p class="section-label mb-5 animate-on-load">Protezione collettiva</p>
+          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-ink leading-[1.08] tracking-tight mb-6 animate-on-load-delay">
+            Aiutaci a <span class="gradient-text-warm">smascherare</span> i truffatori
+          </h1>
+          <p class="text-lg text-ink-muted leading-relaxed mb-8 max-w-lg animate-on-load-delay-2">
+            Segnala la tua esperienza e contribuisci al database collettivo
+            di informazioni sulle truffe online in Italia.
+            Anche un tentativo non riuscito fa la differenza.
+          </p>
+          <div class="flex flex-wrap gap-3 animate-on-load-delay-2">
+            <a href="/segnala" class="btn-primary">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Segnala una truffa
+            </a>
+            <a href="/truffe" class="btn-secondary">Esplora le truffe</a>
+          </div>
+        </div>
+
+        <div class="hidden lg:block animate-on-load-delay-2">
+          <RadarHero guides={allArticles.length} />
         </div>
       </div>
     </div>
   </section>
 
   <!-- Stats -->
-  <section class="border-y border-ink/5 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-        <div>
-          <p class="font-display text-3xl text-ink mb-1">{allArticles.length}+</p>
+  <section class="border-b border-white/[0.06]">
+    <div class="page-container py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="glass-card p-6 text-center">
+          <p class="font-display text-4xl font-bold text-trust mb-1">{allArticles.length}+</p>
           <p class="text-sm text-ink-muted">Guide sulle truffe più comuni</p>
         </div>
-        <div>
-          <p class="font-display text-3xl text-ink mb-1">100%</p>
+        <div class="glass-card p-6 text-center">
+          <p class="font-display text-4xl font-bold text-accent mb-1">100%</p>
           <p class="text-sm text-ink-muted">Open source e gratuito</p>
         </div>
-        <div>
-          <p class="font-display text-3xl text-ink mb-1">🇮🇹</p>
+        <div class="glass-card p-6 text-center">
+          <p class="font-display text-4xl font-bold mb-1">🇮🇹</p>
           <p class="text-sm text-ink-muted">Focus sul mercato italiano</p>
         </div>
       </div>
@@ -56,57 +66,64 @@ const articles = allArticles
   </section>
 
   <!-- How it works -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20">
-    <h2 class="font-display text-3xl text-ink mb-3">Come funziona</h2>
-    <p class="text-ink-muted mb-10 max-w-xl">
-      Un archivio collaborativo per documentare truffe, tecniche e profili di truffatori.
-    </p>
+  <section class="page-container py-20 md:py-24">
+    <div class="max-w-xl mb-12">
+      <p class="section-label mb-3">Il processo</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-3">Come funziona</h2>
+      <p class="text-ink-muted">
+        Un archivio collaborativo per documentare truffe, tecniche e profili di truffatori.
+      </p>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white rounded-xl p-6 shadow-card border border-ink/5">
-        <div class="w-10 h-10 rounded-lg bg-trust-light flex items-center justify-center text-trust font-bold mb-4">1</div>
-        <h3 class="font-semibold text-ink mb-2">Informati</h3>
-        <p class="text-sm text-ink-muted">Leggi le guide sulle truffe più diffuse e impara a riconoscere i segnali d'allarme.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="glass-card p-7 group hover:border-trust/30 transition-all duration-300">
+        <div class="w-11 h-11 rounded-xl bg-trust/10 border border-trust/20 flex items-center justify-center text-trust font-mono font-bold text-sm mb-5 group-hover:shadow-glow transition-shadow">01</div>
+        <h3 class="font-display text-xl font-semibold text-ink mb-2">Informati</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">Leggi le guide sulle truffe più diffuse e impara a riconoscere i segnali d'allarme.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 shadow-card border border-ink/5">
-        <div class="w-10 h-10 rounded-lg bg-alert-soft flex items-center justify-center text-alert font-bold mb-4">2</div>
-        <h3 class="font-semibold text-ink mb-2">Segnala</h3>
-        <p class="text-sm text-ink-muted">Racconta la tua esperienza con il modulo guidato. Puoi allegare prove e documentazione.</p>
+      <div class="glass-card p-7 group hover:border-alert/30 transition-all duration-300">
+        <div class="w-11 h-11 rounded-xl bg-alert/10 border border-alert/20 flex items-center justify-center text-alert font-mono font-bold text-sm mb-5 group-hover:shadow-glow-alert transition-shadow">02</div>
+        <h3 class="font-display text-xl font-semibold text-ink mb-2">Segnala</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">Racconta la tua esperienza con il modulo guidato. Puoi allegare prove e documentazione.</p>
       </div>
-      <div class="bg-white rounded-xl p-6 shadow-card border border-ink/5">
-        <div class="w-10 h-10 rounded-lg bg-accent-soft flex items-center justify-center text-accent font-bold mb-4">3</div>
-        <h3 class="font-semibold text-ink mb-2">Proteggi</h3>
-        <p class="text-sm text-ink-muted">Le segnalazioni alimentano il database pubblico e aiutano altri a non cadere nella stessa trappola.</p>
+      <div class="glass-card p-7 group hover:border-accent/30 transition-all duration-300">
+        <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent font-mono font-bold text-sm mb-5 transition-shadow">03</div>
+        <h3 class="font-display text-xl font-semibold text-ink mb-2">Proteggi</h3>
+        <p class="text-sm text-ink-muted leading-relaxed">Le segnalazioni alimentano il database pubblico e aiutano altri a non cadere nella stessa trappola.</p>
       </div>
     </div>
   </section>
 
   <!-- Latest articles -->
-  <section class="bg-paper-warm border-t border-ink/5">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-20">
-      <div class="flex items-end justify-between mb-10">
+  <section class="border-t border-white/[0.06] bg-paper-warm/50">
+    <div class="page-container py-20 md:py-24">
+      <div class="flex items-end justify-between mb-10 gap-4">
         <div>
-          <h2 class="font-display text-3xl text-ink mb-2">Ultime guide</h2>
+          <p class="section-label mb-3">Knowledge base</p>
+          <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-2">Ultime guide</h2>
           <p class="text-ink-muted">Approfondimenti sulle truffe più comuni in Italia</p>
         </div>
-        <a href="/truffe" class="hidden sm:inline-flex btn-ghost text-trust">Vedi tutte →</a>
+        <a href="/truffe" class="hidden sm:inline-flex btn-ghost text-trust shrink-0">
+          Vedi tutte
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {articles.map((article) => (
-          <a href={`/truffe/${article.id.replace(/\.md$/, '')}`} class="group bg-white rounded-xl overflow-hidden shadow-card border border-ink/5 hover:shadow-lift transition-shadow">
-            <div class="h-2 bg-gradient-to-r from-trust to-alert"></div>
-            <div class="p-6">
-              <div class="flex flex-wrap gap-2 mb-3">
+          <a href={`/truffe/${article.id.replace(/\.md$/, '')}`} class="group article-card">
+            <div class="h-1 bg-gradient-to-r from-trust via-accent/60 to-alert opacity-60"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="flex flex-wrap gap-2 mb-4">
                 {article.data.tags.slice(0, 2).map((tag) => (
-                  <span class="text-xs font-medium px-2 py-0.5 bg-trust-light text-trust rounded-full">{tag}</span>
+                  <span class="tag">{tag}</span>
                 ))}
               </div>
-              <h3 class="font-display text-xl text-ink group-hover:text-trust transition-colors mb-2">
+              <h3 class="font-display text-xl font-semibold text-ink group-hover:text-trust transition-colors mb-2 line-clamp-2">
                 {article.data.title}
               </h3>
-              <p class="text-sm text-ink-muted line-clamp-3">{article.data.description}</p>
-              <time datetime={article.data.date.toISOString()} class="block text-xs text-ink-faint mt-4">
+              <p class="text-sm text-ink-muted line-clamp-3 flex-1">{article.data.description}</p>
+              <time datetime={article.data.date.toISOString()} class="block text-xs font-mono text-ink-faint mt-5 pt-4 border-t border-white/[0.06]">
                 {article.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
               </time>
             </div>
@@ -119,22 +136,31 @@ const articles = allArticles
   </section>
 
   <!-- CTA -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-    <div class="bg-ink rounded-2xl p-8 md:p-12 text-center">
-      <h2 class="font-display text-2xl md:text-3xl text-white mb-4">
-        Hai subito o tentato una truffa?
-      </h2>
-      <p class="text-white/70 mb-8 max-w-lg mx-auto">
-        La tua segnalazione può salvare qualcun altro. Compila il modulo in pochi minuti — i tuoi dati sono protetti.
-      </p>
-      <a href="/segnala" class="inline-flex btn-primary bg-alert hover:bg-red-700">
-        Segnala ora
-      </a>
+  <section class="page-container py-20">
+    <div class="relative overflow-hidden rounded-3xl border border-white/[0.08] p-10 md:p-14 text-center">
+      <div class="absolute inset-0 bg-gradient-to-br from-trust/10 via-paper-card to-alert/10"></div>
+      <div class="absolute inset-0 site-grid opacity-20"></div>
+      <div class="relative">
+        <p class="section-label mb-4">Agisci ora</p>
+        <h2 class="font-display text-2xl md:text-4xl font-bold text-ink mb-4 tracking-tight">
+          Hai subito o tentato una truffa?
+        </h2>
+        <p class="text-ink-muted mb-8 max-w-lg mx-auto">
+          La tua segnalazione può salvare qualcun altro. Compila il modulo in pochi minuti — i tuoi dati sono protetti.
+        </p>
+        <a href="/segnala" class="btn-primary">Segnala ora</a>
+      </div>
     </div>
   </section>
 </PageLayout>
 
 <style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;

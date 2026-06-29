@@ -2,50 +2,49 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-ink text-white/70 mt-auto">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
-      <div class="md:col-span-2">
-        <div class="flex items-center gap-2 mb-4">
-          <img src="/favicon.svg" alt="" class="w-7 h-7 brightness-0 invert opacity-80" width="28" height="28" />
-          <span class="font-display text-lg text-white">Truffe.info</span>
+<footer class="mt-auto border-t border-white/[0.06] bg-paper-warm/80 backdrop-blur-sm">
+  <div class="page-container py-14">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
+      <div class="md:col-span-5">
+        <div class="flex items-center gap-3 mb-5">
+          <img src="/favicon.svg" alt="" class="w-8 h-8" width="32" height="32" />
+          <span class="font-display text-xl font-bold text-ink">Truffe<span class="text-alert">.</span>info</span>
         </div>
-        <p class="text-sm leading-relaxed max-w-md">
+        <p class="text-sm text-ink-muted leading-relaxed max-w-sm">
           Progetto open source dedicato alla raccolta e diffusione di informazioni
           sulle truffe in Italia. Ogni segnalazione, anche di un tentativo non riuscito,
           contribuisce a proteggere gli altri.
         </p>
+        <div class="flex gap-3 mt-6">
+          <span class="tag">Open source</span>
+          <span class="tag">MIT</span>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-white text-sm font-semibold mb-4">Navigazione</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/truffe" class="hover:text-white transition-colors">Tipi di truffa</a></li>
-          <li><a href="/segnala" class="hover:text-white transition-colors">Segnala una truffa</a></li>
-          <li><a href="/database" class="hover:text-white transition-colors">Database truffatori</a></li>
-          <li><a href="/chi-siamo" class="hover:text-white transition-colors">Chi siamo</a></li>
+      <div class="md:col-span-3 md:col-start-7">
+        <h3 class="section-label mb-4">Navigazione</h3>
+        <ul class="space-y-2.5 text-sm text-ink-muted">
+          <li><a href="/truffe" class="hover:text-trust transition-colors">Tipi di truffa</a></li>
+          <li><a href="/segnala" class="hover:text-trust transition-colors">Segnala una truffa</a></li>
+          <li><a href="/database" class="hover:text-trust transition-colors">Database truffatori</a></li>
+          <li><a href="/chi-siamo" class="hover:text-trust transition-colors">Chi siamo</a></li>
         </ul>
       </div>
 
-      <div>
-        <h3 class="text-white text-sm font-semibold mb-4">Risorse utili</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/linee-guida" class="hover:text-white transition-colors">Linee guida</a></li>
-          <li><a href="/segnala-contenuto" class="hover:text-white transition-colors">Segnala un contenuto</a></li>
-          <li><a href="/privacy" class="hover:text-white transition-colors">Privacy</a></li>
-          <li><a href="/termini" class="hover:text-white transition-colors">Termini</a></li>
+      <div class="md:col-span-3">
+        <h3 class="section-label mb-4">Legale</h3>
+        <ul class="space-y-2.5 text-sm text-ink-muted">
+          <li><a href="/linee-guida" class="hover:text-trust transition-colors">Linee guida</a></li>
+          <li><a href="/segnala-contenuto" class="hover:text-trust transition-colors">Segnala un contenuto</a></li>
+          <li><a href="/privacy" class="hover:text-trust transition-colors">Privacy</a></li>
+          <li><a href="/termini" class="hover:text-trust transition-colors">Termini</a></li>
         </ul>
       </div>
     </div>
 
-    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
-      <p>&copy; {year} Truffe.info — Progetto open source sotto licenza MIT</p>
-      <div class="flex gap-4">
-        <a href="/linee-guida" class="hover:text-white transition-colors">Linee guida</a>
-        <a href="/segnala-contenuto" class="hover:text-white transition-colors">Segnala contenuto</a>
-        <a href="/privacy" class="hover:text-white transition-colors">Privacy</a>
-        <a href="/termini" class="hover:text-white transition-colors">Termini</a>
-      </div>
+    <div class="border-t border-white/[0.06] mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-ink-faint">
+      <p>&copy; {year} Truffe.info</p>
+      <p>Protezione collettiva contro le truffe online</p>
     </div>
   </div>
 </footer>

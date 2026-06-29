@@ -8,27 +8,33 @@ const navItems = [
 ];
 
 const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  return currentPath === href || (href !== '/' && currentPath.startsWith(href));
+}
 ---
 
-<header class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-ink/5">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+<header class="sticky top-0 z-50 glass border-b border-white/[0.06]">
+  <div class="page-container">
     <div class="flex items-center justify-between h-16">
-      <a href="/" class="flex items-center gap-2.5 group">
-        <img src="/favicon.svg" alt="" class="w-8 h-8" width="32" height="32" />
-        <span class="font-display text-xl text-ink group-hover:text-trust transition-colors">
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="relative w-9 h-9 rounded-xl overflow-hidden ring-1 ring-trust/20 group-hover:ring-trust/50 transition-all">
+          <img src="/favicon.svg" alt="" class="w-full h-full" width="36" height="36" />
+        </div>
+        <span class="font-display text-xl font-bold tracking-tight text-ink group-hover:text-trust transition-colors">
           Truffe<span class="text-alert">.</span>info
         </span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-1" aria-label="Navigazione principale">
+      <nav class="hidden md:flex items-center gap-0.5" aria-label="Navigazione principale">
         {navItems.map((item) => (
           <a
             href={item.href}
             class:list={[
-              'px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-                ? 'text-alert bg-alert-soft'
-                : 'text-ink-muted hover:text-ink hover:bg-paper-warm',
+              'px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-200',
+              isActive(item.href)
+                ? 'text-trust bg-trust/10 border border-trust/20'
+                : 'text-ink-muted hover:text-ink hover:bg-white/[0.05]',
             ]}
           >
             {item.label}
@@ -36,38 +42,41 @@ const currentPath = Astro.url.pathname;
         ))}
       </nav>
 
-      <a href="/segnala" class="hidden md:inline-flex btn-primary text-sm !py-2 !px-4">
-        Segnala una truffa
+      <a href="/segnala" class="hidden md:inline-flex btn-primary text-sm !py-2.5 !px-5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Segnala
       </a>
 
       <button
         id="mobile-menu-btn"
-        class="md:hidden p-2 rounded-lg text-ink-muted hover:bg-paper-warm"
+        class="md:hidden p-2.5 rounded-xl text-ink-muted hover:bg-white/[0.05] hover:text-ink transition-colors"
         aria-label="Apri menu"
         aria-expanded="false"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
     </div>
 
-    <nav id="mobile-menu" class="hidden md:hidden pb-4 border-t border-ink/5 pt-3" aria-label="Menu mobile">
+    <nav id="mobile-menu" class="hidden md:hidden pb-4 border-t border-white/[0.06] pt-3" aria-label="Menu mobile">
       <div class="flex flex-col gap-1">
         {navItems.map((item) => (
           <a
             href={item.href}
             class:list={[
-              'px-3 py-2.5 text-sm font-medium rounded-lg',
-              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-                ? 'text-alert bg-alert-soft'
-                : 'text-ink-muted hover:bg-paper-warm',
+              'px-3 py-2.5 text-sm font-medium rounded-lg transition-colors',
+              isActive(item.href)
+                ? 'text-trust bg-trust/10'
+                : 'text-ink-muted hover:bg-white/[0.05]',
             ]}
           >
             {item.label}
           </a>
         ))}
-        <a href="/segnala" class="btn-primary text-sm mt-2 text-center">Segnala una truffa</a>
+        <a href="/segnala" class="btn-primary text-sm mt-3 text-center">Segnala una truffa</a>
       </div>
     </nav>
   </div>

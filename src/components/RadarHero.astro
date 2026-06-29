@@ -1,0 +1,36 @@
+---
+interface Props {
+  guides?: number | string;
+}
+
+const { guides = 62 } = Astro.props;
+---
+
+<div class="relative w-full max-w-md mx-auto lg:mx-0 aspect-square" aria-hidden="true">
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="absolute w-[85%] h-[85%] rounded-full border border-trust/10"></div>
+    <div class="absolute w-[65%] h-[65%] rounded-full border border-trust/15"></div>
+    <div class="absolute w-[45%] h-[45%] rounded-full border border-trust/25"></div>
+    <div class="absolute w-[25%] h-[25%] rounded-full bg-trust/20 blur-xl"></div>
+    <div class="absolute w-[85%] h-[85%] rounded-full border border-trust/40 animate-pulse-ring"></div>
+    <div class="absolute w-[85%] h-[85%] rounded-full border border-trust/30 animate-pulse-ring" style="animation-delay: 0.9s"></div>
+    <svg class="absolute w-[85%] h-[85%] text-trust/20" viewBox="0 0 200 200">
+      <line x1="100" y1="100" x2="100" y2="10" stroke="currentColor" stroke-width="1" opacity="0.6">
+        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+      </line>
+    </svg>
+    <div class="relative z-10 w-20 h-20 rounded-2xl bg-paper-card border border-trust/30 flex items-center justify-center shadow-glow animate-float">
+      <svg class="w-10 h-10" viewBox="0 0 32 32" fill="none">
+        <path d="M16 5L25 9.5v6.5c0 4.8-3.4 9.4-9 10.5-5.6-1.1-9-5.7-9-10.5V9.5L16 5z" fill="#111827" stroke="#2dd4bf" stroke-width="1.2"/>
+        <circle cx="16" cy="15" r="2.5" fill="#2dd4bf"/>
+        <path d="M16 11.5v2M16 16.5v2.5" stroke="#ff5c5c" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+  <div class="absolute top-4 right-0 glass-card px-3 py-2 text-xs font-mono text-trust animate-float" style="animation-delay: -2s">
+    +{guides} guide
+  </div>
+  <div class="absolute bottom-8 left-0 glass-card px-3 py-2 text-xs font-mono text-accent animate-float" style="animation-delay: -4s">
+    🇮🇹 Italia
+  </div>
+</div>
