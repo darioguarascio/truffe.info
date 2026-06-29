@@ -2,7 +2,8 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
 
-const articles = (await getCollection('truffe'))
+const allArticles = await getCollection('truffe');
+const articles = allArticles
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 ---
@@ -39,7 +40,7 @@ const articles = (await getCollection('truffe'))
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
         <div>
-          <p class="font-display text-3xl text-ink mb-1">6+</p>
+          <p class="font-display text-3xl text-ink mb-1">{allArticles.length}+</p>
           <p class="text-sm text-ink-muted">Guide sulle truffe più comuni</p>
         </div>
         <div>
