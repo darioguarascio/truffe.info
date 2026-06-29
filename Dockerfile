@@ -20,6 +20,8 @@ RUN addgroup -g 1001 -S nodejs && adduser -S astro -u 1001 -G nodejs
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/server.ts ./
+COPY --from=builder /app/src/lib ./src/lib
 COPY --from=builder /app/db ./db
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/public ./public
@@ -33,4 +35,4 @@ EXPOSE 4321
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
   CMD node -e "fetch('http://localhost:4321/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-CMD ["sh", "-c", "node scripts/migrate.mjs && node dist/server/entry.mjs"]
+CMD ["sh", "-c", "node scripts/migrate.mjs && npx tsx server.ts"]

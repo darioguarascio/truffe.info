@@ -76,6 +76,14 @@ jobs:
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST || 'postgresql' }}" >> .env
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT || '5432' }}" >> .env
             echo "APP_PORT=${{ secrets.APP_PORT || '4321' }}" >> .env
+            echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+            echo "SMTP_PORT=${{ secrets.SMTP_PORT || '587' }}" >> .env
+            echo "SMTP_SECURE=${{ secrets.SMTP_SECURE || 'false' }}" >> .env
+            echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+            echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+            echo "SMTP_FROM=${{ secrets.SMTP_FROM || 'noreply@truffe.info' }}" >> .env
+            echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
+            echo "ADMIN_TOKEN=${{ secrets.ADMIN_TOKEN }}" >> .env
             docker-compose -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.prod.yml up -d
             docker image prune -f

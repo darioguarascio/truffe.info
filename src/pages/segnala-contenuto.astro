@@ -1,0 +1,109 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const urlParam = Astro.url.searchParams.get('url') ?? '';
+---
+
+<PageLayout
+  title="Segnala un contenuto | Truffe.info"
+  description="Segnala contenuti su Truffe.info che ritieni diffamatori, falsi o che violano la privacy."
+>
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <header class="mb-8">
+      <h1 class="font-display text-3xl md:text-4xl text-ink mb-2">Segnala un contenuto</h1>
+      <p class="text-ink-muted">
+        Usa questo modulo se ritieni che un contenuto pubblicato su Truffe.info sia illecito,
+        diffamatorio, contenga dati personali non consentiti o violi le nostre
+        <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
+      </p>
+    </header>
+
+    <form id="report-form" class="bg-white rounded-xl shadow-card border border-ink/5 p-6 md:p-8 space-y-5">
+      <div>
+        <label class="form-label" for="url">URL del contenuto *</label>
+        <input type="url" id="url" name="url" class="form-input" required placeholder="https://truffe.info/truffe/..." value={urlParam} />
+      </div>
+
+      <div>
+        <label class="form-label" for="reason">Motivo della segnalazione *</label>
+        <select id="reason" name="reason" class="form-input" required>
+          <option value="">Seleziona un motivo</option>
+          <option value="defamation">Diffamazione / accuse non verificate</option>
+          <option value="personal_data">Contiene dati personali</option>
+          <option value="offensive_content">Contenuto offensivo</option>
+          <option value="false_information">Informazioni false</option>
+          <option value="other">Altro</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="form-label" for="description">Descrizione dettagliata *</label>
+        <textarea id="description" name="description" class="form-input min-h-[120px] resize-y" required minlength="20" placeholder="Spiega perché ritieni che il contenuto debba essere rimosso o modificato..."></textarea>
+        <p class="form-hint">Minimo 20 caratteri. Indica i passaggi specifici del contenuto che ritieni problematici.</p>
+      </div>
+
+      <hr class="border-ink/10" />
+
+      <div>
+        <label class="form-label" for="name">Il tuo nome (opzionale)</label>
+        <input type="text" id="name" name="name" class="form-input" />
+      </div>
+
+      <div>
+        <label class="form-label" for="email">La tua email (opzionale)</label>
+        <input type="email" id="email" name="email" class="form-input" />
+        <p class="form-hint">Per ricevere aggiornamenti sull'esito della segnalazione</p>
+      </div>
+
+      <div id="form-error" class="hidden p-3 bg-alert-soft text-alert text-sm rounded-lg"></div>
+
+      <button type="submit" class="btn-primary w-full">Invia segnalazione</button>
+    </form>
+
+    <div id="success-message" class="hidden bg-white rounded-xl shadow-card border border-ink/5 p-8 text-center mt-8">
+      <h2 class="font-display text-xl text-ink mb-2">Segnalazione ricevuta</h2>
+      <p class="text-sm text-ink-muted mb-4">
+        Esamineremo il contenuto segnalato e provvederemo in tempi ragionevoli,
+        come previsto dalla nostra procedura di notice-and-takedown.
+      </p>
+      <a href="/" class="btn-secondary text-sm">Torna alla home</a>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  const form = document.getElementById('report-form');
+  const formError = document.getElementById('form-error');
+  const successMessage = document.getElementById('success-message');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formError.classList.add('hidden');
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.setAttribute('disabled', 'true');
+
+    try {
+      const res = await fetch('/api/content-reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content_url: document.getElementById('url').value,
+          reason: document.getElementById('reason').value,
+          description: document.getElementById('description').value,
+          reporter_name: document.getElementById('name').value,
+          reporter_email: document.getElementById('email').value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Errore durante l\'invio');
+
+      form.classList.add('hidden');
+      successMessage.classList.remove('hidden');
+    } catch (err) {
+      formError.textContent = err instanceof Error ? err.message : 'Errore durante l\'invio';
+      formError.classList.remove('hidden');
+      btn.removeAttribute('disabled');
+    }
+  });
+</script>

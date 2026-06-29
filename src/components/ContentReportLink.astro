@@ -1,0 +1,17 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+const reportUrl = `/segnala-contenuto?url=${encodeURIComponent(url)}`;
+---
+
+<div class="mt-8 pt-6 border-t border-ink/10 flex flex-wrap items-center justify-between gap-4">
+  <p class="text-xs text-ink-faint">
+    Questo articolo ha scopo informativo. Le esperienze degli utenti sono soggette a moderazione.
+  </p>
+  <a href={reportUrl} class="text-xs text-trust hover:underline font-medium">
+    Segnala questo contenuto
+  </a>
+</div>

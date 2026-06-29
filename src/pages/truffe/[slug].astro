@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import ContentReportLink from '../../components/ContentReportLink.astro';
 import { getEntry, render } from 'astro:content';
 
 const { slug } = Astro.params;
@@ -41,6 +42,7 @@ const description = article.data.meta_description ?? article.data.description;
         </p>
         <a href="/segnala" class="btn-primary text-sm">Segnala una truffa</a>
       </div>
+      <ContentReportLink url={`https://truffe.info/truffe/${slug}`} />
       <a href="/truffe" class="inline-block mt-6 text-sm text-trust hover:underline">← Torna alle guide</a>
     </footer>
   </article>

@@ -9,6 +9,17 @@ import PageLayout from '../layouts/PageLayout.astro';
       <p class="text-ink-muted">Anche un tentativo non riuscito contribuisce alla profilazione</p>
     </header>
 
+    <div class="bg-trust-light border border-trust/20 rounded-xl p-4 mb-8 text-sm text-ink-muted">
+      <p class="font-semibold text-ink mb-2">Prima di iniziare — regole importanti</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Racconta <strong>la tua esperienza</strong> in prima persona, senza insulti o accuse non dimostrabili</li>
+        <li>Non inserire dati personali di terzi (indirizzi, codici fiscali, email private)</li>
+        <li>Evita affermazioni categoriche su persone fisiche (es. "X è un criminale")</li>
+        <li>La segnalazione <strong>non sarà pubblicata</strong> finché non verrà moderata</li>
+      </ul>
+      <p class="mt-2">Leggi le <a href="/linee-guida" class="text-trust hover:underline font-medium">linee guida complete</a>.</p>
+    </div>
+
     <!-- Progress bar -->
     <div class="mb-8">
       <div class="flex justify-between text-xs text-ink-faint mb-2">
@@ -27,14 +38,14 @@ import PageLayout from '../layouts/PageLayout.astro';
 
         <div class="space-y-5">
           <div>
-            <label class="form-label" for="luogo">Dove è avvenuta la truffa</label>
-            <input type="text" id="luogo" name="luogo" class="form-input" placeholder="Es. sito web, telefono, di persona..." />
+            <label class="form-label" for="location">Dove è avvenuta la truffa</label>
+            <input type="text" id="location" name="location" class="form-input" placeholder="Es. sito web, telefono, di persona..." />
             <p class="form-hint">Se online, inserisci il sito web dove è avvenuto il primo contatto</p>
           </div>
 
           <div>
-            <label class="form-label" for="importo">Importo della truffa</label>
-            <input type="number" id="importo" name="importo" class="form-input" min="0" step="0.01" placeholder="0.00" />
+            <label class="form-label" for="amount">Importo della truffa</label>
+            <input type="number" id="amount" name="amount" class="form-input" min="0" step="0.01" placeholder="0.00" />
             <p class="form-hint">Indica di quanto denaro si tratta (€). Lascia vuoto se non applicabile.</p>
           </div>
 
@@ -42,11 +53,11 @@ import PageLayout from '../layouts/PageLayout.astro';
             <p class="form-label">Il truffatore è riuscito a sottrarti il denaro?</p>
             <div class="flex gap-4 mt-2">
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="denaro_sottratto" value="si" class="accent-trust" />
+                <input type="radio" name="money_taken" value="si" class="accent-trust" />
                 <span class="text-sm">Sì</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="denaro_sottratto" value="no" class="accent-trust" />
+                <input type="radio" name="money_taken" value="no" class="accent-trust" />
                 <span class="text-sm">No</span>
               </label>
             </div>
@@ -56,11 +67,11 @@ import PageLayout from '../layouts/PageLayout.astro';
             <p class="form-label">Hai sporto denuncia alle autorità?</p>
             <div class="flex gap-4 mt-2">
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="denuncia_polizia" value="si" class="accent-trust" />
+                <input type="radio" name="reported_to_police" value="si" class="accent-trust" />
                 <span class="text-sm">Sì</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="denuncia_polizia" value="no" class="accent-trust" />
+                <input type="radio" name="reported_to_police" value="no" class="accent-trust" />
                 <span class="text-sm">No</span>
               </label>
             </div>
@@ -71,30 +82,34 @@ import PageLayout from '../layouts/PageLayout.astro';
       <!-- Step 2: Timeline -->
       <div class="form-step hidden" data-step="2">
         <h2 class="font-display text-xl text-ink mb-2">Descrizione della truffa</h2>
-        <p class="text-sm text-ink-muted mb-6">
-          Descrivi gli avvenimenti in ordine cronologico, includendo ogni dettaglio possibile.
+        <p class="text-sm text-ink-muted mb-4">
+          Descrivi gli avvenimenti in ordine cronologico. Usa la prima persona:
+          <em>"Ho ricevuto una chiamata...", "Mi è arrivato un messaggio..."</em>
         </p>
+        <div class="bg-accent-soft border border-accent/30 rounded-lg p-3 mb-6 text-xs text-ink-muted">
+          Non usare insulti né accusare persone per nome completo. Descrivi i fatti accaduti a te.
+        </div>
 
-        <div id="eventi-container" class="space-y-6">
-          <div class="evento-item border border-ink/10 rounded-lg p-4">
+        <div id="events-container" class="space-y-6">
+          <div class="event-item border border-ink/10 rounded-lg p-4">
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
                 <label class="form-label text-xs">Data</label>
-                <input type="date" class="form-input evento-data" />
+                <input type="date" class="form-input event-date" />
               </div>
               <div>
                 <label class="form-label text-xs">Ora</label>
-                <input type="time" class="form-input evento-ora" />
+                <input type="time" class="form-input event-time" />
               </div>
             </div>
             <div>
               <label class="form-label text-xs">Descrizione</label>
-              <textarea class="form-input evento-desc min-h-[100px] resize-y" placeholder="Descrivi cosa è successo..."></textarea>
+              <textarea class="form-input event-description min-h-[100px] resize-y" placeholder="Descrivi cosa è successo..."></textarea>
             </div>
           </div>
         </div>
 
-        <button type="button" id="add-evento" class="mt-4 btn-ghost text-trust border border-trust/20 w-full">
+        <button type="button" id="add-event" class="mt-4 btn-ghost text-trust border border-trust/20 w-full">
           + Aggiungi un altro evento
         </button>
       </div>
@@ -116,7 +131,7 @@ import PageLayout from '../layouts/PageLayout.astro';
           <p class="font-semibold text-ink mb-1">Sfoglia file</p>
           <p class="text-xs text-ink-faint">Trascina i file qui o clicca per selezionarli</p>
           <p class="text-xs text-ink-faint mt-2">Max 25 MB per file. JPG, PNG, PDF, MP3, MP4</p>
-          <input type="file" id="file-input" name="allegati" multiple accept="image/*,audio/*,video/*,application/pdf,text/plain" class="hidden" />
+          <input type="file" id="file-input" name="attachments" multiple accept="image/*,audio/*,video/*,application/pdf,text/plain" class="hidden" />
         </div>
 
         <ul id="file-list" class="mt-4 space-y-2"></ul>
@@ -133,50 +148,57 @@ import PageLayout from '../layouts/PageLayout.astro';
               <a href="/database" class="text-trust hover:underline">database pubblico</a>?
               Inserisci il suo nome in codice.
             </p>
-            <label class="form-label" for="truffatore_codename">Nome in codice del truffatore</label>
-            <input type="text" id="truffatore_codename" name="truffatore_codename" class="form-input" />
+            <label class="form-label" for="scammer_codename">Nome in codice del truffatore</label>
+            <input type="text" id="scammer_codename" name="scammer_codename" class="form-input" />
           </div>
 
           <hr class="border-ink/10" />
 
           <p class="text-sm text-ink-muted">
-            Altrimenti, se non hai trovato riscontri ma pensi di essere in possesso di informazioni utili per creare un nuovo identikit, rispondi alle seguenti domande.
+            Se non hai trovato riscontri nel database, puoi fornire un identikit generico.
+            <strong>Non inserire nomi completi di persone reali</strong> né dati personali non necessari.
           </p>
+
+          <div class="bg-alert-soft border border-alert/20 rounded-lg p-3 text-xs text-ink-muted">
+            I dati in questa sezione sono usati solo per moderazione interna e non vengono pubblicati automaticamente.
+            Numeri di telefono e nomi verranno anonimizzati prima di qualsiasi pubblicazione.
+          </div>
 
           <div>
             <p class="form-label">Sesso</p>
             <div class="flex gap-4 mt-2">
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="truffatore_sesso" value="uomo" class="accent-trust" />
+                <input type="radio" name="scammer_gender" value="male" class="accent-trust" />
                 <span class="text-sm">Uomo</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="truffatore_sesso" value="donna" class="accent-trust" />
+                <input type="radio" name="scammer_gender" value="female" class="accent-trust" />
                 <span class="text-sm">Donna</span>
               </label>
             </div>
           </div>
 
           <div>
-            <label class="form-label" for="truffatore_nazionalita">Nazionalità</label>
-            <input type="text" id="truffatore_nazionalita" name="truffatore_nazionalita" class="form-input" />
+            <label class="form-label" for="scammer_nationality">Nazionalità</label>
+            <input type="text" id="scammer_nationality" name="scammer_nationality" class="form-input" />
             <p class="form-hint">Italiano o straniero</p>
           </div>
 
           <div>
-            <label class="form-label" for="truffatore_nome">Nome</label>
-            <input type="text" id="truffatore_nome" name="truffatore_nome" class="form-input" />
-            <p class="form-hint">Anche se falso, potrebbe essere stato utilizzato più volte</p>
+            <label class="form-label" for="scammer_name">Nome usato dal truffatore (se falso)</label>
+            <input type="text" id="scammer_name" name="scammer_name" class="form-input" placeholder="Es. Marco, Dr. Bianchi..." />
+            <p class="form-hint">Solo nomi o alias usati durante la truffa — non nomi completi di persone reali identificate</p>
           </div>
 
           <div>
-            <label class="form-label" for="truffatore_telefono">Numero di telefono</label>
-            <input type="tel" id="truffatore_telefono" name="truffatore_telefono" class="form-input" />
+            <label class="form-label" for="scammer_phone">Numero di telefono usato</label>
+            <input type="tel" id="scammer_phone" name="scammer_phone" class="form-input" />
+            <p class="form-hint">Solo se rilevante per la segnalazione. Verrà anonimizzato in pubblicazione.</p>
           </div>
 
           <div>
-            <label class="form-label" for="truffatore_caratteristiche">Caratteristiche e segni particolari</label>
-            <textarea id="truffatore_caratteristiche" name="truffatore_caratteristiche" class="form-input min-h-[100px] resize-y" placeholder="Accenti, tonalità della voce, particolari che potrebbero essere d'aiuto..."></textarea>
+            <label class="form-label" for="scammer_characteristics">Caratteristiche e segni particolari</label>
+            <textarea id="scammer_characteristics" name="scammer_characteristics" class="form-input min-h-[100px] resize-y" placeholder="Accenti, tonalità della voce, particolari che potrebbero essere d'aiuto..."></textarea>
           </div>
         </div>
       </div>
@@ -188,33 +210,55 @@ import PageLayout from '../layouts/PageLayout.astro';
         <div class="space-y-5">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="form-label" for="vittima_nome">Nome *</label>
-              <input type="text" id="vittima_nome" name="vittima_nome" class="form-input" required />
+              <label class="form-label" for="reporter_first_name">Nome *</label>
+              <input type="text" id="reporter_first_name" name="reporter_first_name" class="form-input" required />
             </div>
             <div>
-              <label class="form-label" for="vittima_cognome">Cognome *</label>
-              <input type="text" id="vittima_cognome" name="vittima_cognome" class="form-input" required />
+              <label class="form-label" for="reporter_last_name">Cognome *</label>
+              <input type="text" id="reporter_last_name" name="reporter_last_name" class="form-input" required />
             </div>
           </div>
 
           <div>
-            <label class="form-label" for="vittima_email">Email *</label>
-            <input type="email" id="vittima_email" name="vittima_email" class="form-input" required />
+            <label class="form-label" for="reporter_email">Email *</label>
+            <input type="email" id="reporter_email" name="reporter_email" class="form-input" required />
             <p class="form-hint">Servirà per mettersi in contatto con te per comunicarti eventuali aggiornamenti</p>
           </div>
 
           <hr class="border-ink/10" />
 
-          <div class="bg-paper-warm rounded-lg p-4 border border-ink/10">
-            <label class="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" id="dichiarazione" name="dichiarazione_accettata" required class="mt-1 accent-trust" />
-              <span class="text-sm text-ink-muted leading-relaxed">
-                <strong class="text-ink">Dichiarazione di responsabilità:</strong> dichiaro sotto la mia responsabilità
-                che tutte le informazioni fornite in questo modulo sono veritiere e accurate al meglio delle mie conoscenze.
-                Sono consapevole che la trasmissione di dati falsi può costituire reato ai sensi del Codice Penale italiano.
-                Acconsento alla conservazione dei dati di invio (indirizzo IP, data e ora) per finalità legali e di verifica.
-              </span>
-            </label>
+          <div class="space-y-3">
+            <div class="bg-paper-warm rounded-lg p-4 border border-ink/10">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="declaration" name="declaration_accepted" required class="mt-1 accent-trust" />
+                <span class="text-sm text-ink-muted leading-relaxed">
+                  <strong class="text-ink">Dichiarazione di veridicità:</strong> dichiaro che le informazioni fornite
+                  descrivono la mia esperienza personale ed sono veritiere al meglio delle mie conoscenze.
+                  Sono consapevole che false dichiarazioni possono costituire reato.
+                  Acconsento alla conservazione dei metadati di invio (IP, data/ora) per finalità legali.
+                </span>
+              </label>
+            </div>
+
+            <div class="bg-paper-warm rounded-lg p-4 border border-ink/10">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="terms" name="terms_accepted" required class="mt-1 accent-trust" />
+                <span class="text-sm text-ink-muted leading-relaxed">
+                  Ho letto e accetto i <a href="/termini" target="_blank" class="text-trust hover:underline">Termini di utilizzo</a>
+                  e sono responsabile del contenuto che invio.
+                </span>
+              </label>
+            </div>
+
+            <div class="bg-paper-warm rounded-lg p-4 border border-ink/10">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" id="guidelines" name="guidelines_accepted" required class="mt-1 accent-trust" />
+                <span class="text-sm text-ink-muted leading-relaxed">
+                  Ho letto e accetto le <a href="/linee-guida" target="_blank" class="text-trust hover:underline">Linee guida della community</a>:
+                  non pubblicherò insulti, accuse non dimostrabili o dati personali di terzi.
+                </span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -238,7 +282,7 @@ import PageLayout from '../layouts/PageLayout.astro';
         </svg>
       </div>
       <h2 class="font-display text-2xl text-ink mb-2">Segnalazione inviata</h2>
-      <p class="text-ink-muted mb-6">Grazie per il tuo contributo. La tua segnalazione è stata registrata e verrà esaminata.</p>
+      <p class="text-ink-muted mb-6">Grazie. La tua segnalazione è in attesa di moderazione e non sarà pubblica finché non verrà esaminata.</p>
       <a href="/" class="btn-secondary">Torna alla home</a>
     </div>
   </div>
@@ -286,17 +330,19 @@ import PageLayout from '../layouts/PageLayout.astro';
 
   function validateStep(step) {
     if (step === 5) {
-      const nome = document.getElementById('vittima_nome').value.trim();
-      const cognome = document.getElementById('vittima_cognome').value.trim();
-      const email = document.getElementById('vittima_email').value.trim();
-      const dich = document.getElementById('dichiarazione').checked;
-      if (!nome || !cognome || !email) {
+      const firstName = document.getElementById('reporter_first_name').value.trim();
+      const lastName = document.getElementById('reporter_last_name').value.trim();
+      const email = document.getElementById('reporter_email').value.trim();
+      const declaration = document.getElementById('declaration').checked;
+      const terms = document.getElementById('terms').checked;
+      const guidelines = document.getElementById('guidelines').checked;
+      if (!firstName || !lastName || !email) {
         formError.textContent = 'Compila tutti i campi obbligatori.';
         formError.classList.remove('hidden');
         return false;
       }
-      if (!dich) {
-        formError.textContent = 'Devi accettare la dichiarazione di responsabilità.';
+      if (!declaration || !terms || !guidelines) {
+        formError.textContent = 'Devi accettare tutte le dichiarazioni e i termini.';
         formError.classList.remove('hidden');
         return false;
       }
@@ -315,9 +361,9 @@ import PageLayout from '../layouts/PageLayout.astro';
   });
 
   // Eventi timeline
-  document.getElementById('add-evento')?.addEventListener('click', () => {
-    const container = document.getElementById('eventi-container');
-    const template = container.querySelector('.evento-item').cloneNode(true);
+  document.getElementById('add-event')?.addEventListener('click', () => {
+    const container = document.getElementById('events-container');
+    const template = container.querySelector('.event-item').cloneNode(true);
     template.querySelectorAll('input, textarea').forEach((el) => {
       el.value = '';
     });
@@ -365,12 +411,12 @@ import PageLayout from '../layouts/PageLayout.astro';
     });
   }
 
-  function collectEventi() {
-    return Array.from(document.querySelectorAll('.evento-item')).map((item) => ({
-      data: item.querySelector('.evento-data').value,
-      ora: item.querySelector('.evento-ora').value,
-      descrizione: item.querySelector('.evento-desc').value,
-    })).filter((e) => e.descrizione.trim());
+  function collectEvents() {
+    return Array.from(document.querySelectorAll('.event-item')).map((item) => ({
+      date: item.querySelector('.event-date').value,
+      time: item.querySelector('.event-time').value,
+      description: item.querySelector('.event-description').value,
+    })).filter((e) => e.description.trim());
   }
 
   function getRadio(name) {
@@ -388,25 +434,27 @@ import PageLayout from '../layouts/PageLayout.astro';
     formError.classList.add('hidden');
 
     const fd = new FormData();
-    fd.append('luogo', document.getElementById('luogo').value);
-    fd.append('importo', document.getElementById('importo').value);
-    fd.append('denaro_sottratto', String(getRadio('denaro_sottratto') ?? ''));
-    fd.append('denuncia_polizia', String(getRadio('denuncia_polizia') ?? ''));
-    fd.append('eventi', JSON.stringify(collectEventi()));
-    fd.append('truffatore_codename', document.getElementById('truffatore_codename').value);
-    fd.append('truffatore_sesso', form.querySelector('input[name="truffatore_sesso"]:checked')?.value ?? '');
-    fd.append('truffatore_nazionalita', document.getElementById('truffatore_nazionalita').value);
-    fd.append('truffatore_nome', document.getElementById('truffatore_nome').value);
-    fd.append('truffatore_telefono', document.getElementById('truffatore_telefono').value);
-    fd.append('truffatore_caratteristiche', document.getElementById('truffatore_caratteristiche').value);
-    fd.append('vittima_nome', document.getElementById('vittima_nome').value);
-    fd.append('vittima_cognome', document.getElementById('vittima_cognome').value);
-    fd.append('vittima_email', document.getElementById('vittima_email').value);
-    fd.append('dichiarazione_accettata', 'true');
-    selectedFiles.forEach((f) => fd.append('allegati', f));
+    fd.append('location', document.getElementById('location').value);
+    fd.append('amount', document.getElementById('amount').value);
+    fd.append('money_taken', String(getRadio('money_taken') ?? ''));
+    fd.append('reported_to_police', String(getRadio('reported_to_police') ?? ''));
+    fd.append('events', JSON.stringify(collectEvents()));
+    fd.append('scammer_codename', document.getElementById('scammer_codename').value);
+    fd.append('scammer_gender', form.querySelector('input[name="scammer_gender"]:checked')?.value ?? '');
+    fd.append('scammer_nationality', document.getElementById('scammer_nationality').value);
+    fd.append('scammer_name', document.getElementById('scammer_name').value);
+    fd.append('scammer_phone', document.getElementById('scammer_phone').value);
+    fd.append('scammer_characteristics', document.getElementById('scammer_characteristics').value);
+    fd.append('reporter_first_name', document.getElementById('reporter_first_name').value);
+    fd.append('reporter_last_name', document.getElementById('reporter_last_name').value);
+    fd.append('reporter_email', document.getElementById('reporter_email').value);
+    fd.append('declaration_accepted', 'true');
+    fd.append('terms_accepted', 'true');
+    fd.append('guidelines_accepted', 'true');
+    selectedFiles.forEach((f) => fd.append('attachments', f));
 
     try {
-      const res = await fetch('/api/segnalazioni', { method: 'POST', body: fd });
+      const res = await fetch('/api/reports', { method: 'POST', body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Errore durante l\'invio');
       form.classList.add('hidden');
