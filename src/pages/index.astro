@@ -94,7 +94,7 @@ const articles = allArticles
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {articles.map((article) => (
-          <a href={`/truffe/${article.id}`} class="group bg-white rounded-xl overflow-hidden shadow-card border border-ink/5 hover:shadow-lift transition-shadow">
+          <a href={`/truffe/${article.id.replace(/\.md$/, '')}`} class="group bg-white rounded-xl overflow-hidden shadow-card border border-ink/5 hover:shadow-lift transition-shadow">
             <div class="h-2 bg-gradient-to-r from-trust to-alert"></div>
             <div class="p-6">
               <div class="flex flex-wrap gap-2 mb-3">
