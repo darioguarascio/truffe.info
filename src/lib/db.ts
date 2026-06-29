@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { parseEvents, type PublicExperience } from './experiences';
 
 const { Pool } = pg;
 
@@ -203,6 +204,58 @@ export async function updateContentReportStatus(
   }
 
   return result.rows[0] ?? null;
+}
+
+export async function getApprovedExperiences(limit = 50): Promise<PublicExperience[]> {
+  try {
+    const db = getPool();
+    const result = await db.query(
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events
+       FROM reports
+       WHERE status = 'approved'
+       ORDER BY moderated_at DESC NULLS LAST, created_at DESC
+       LIMIT $1`,
+      [limit]
+    );
+    return result.rows.map((row) => ({
+      id: row.id,
+      created_at: new Date(row.created_at),
+      moderated_at: row.moderated_at ? new Date(row.moderated_at) : null,
+      location: row.location,
+      amount: row.amount != null ? Number(row.amount) : null,
+      money_taken: row.money_taken,
+      reported_to_police: row.reported_to_police,
+      events: parseEvents(row.events),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getApprovedExperienceById(id: number): Promise<PublicExperience | null> {
+  try {
+    const db = getPool();
+    const result = await db.query(
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events
+       FROM reports
+       WHERE id = $1 AND status = 'approved'`,
+      [id]
+    );
+    if (!result.rows[0]) return null;
+    const row = result.rows[0];
+    return {
+      id: row.id,
+      created_at: new Date(row.created_at),
+      moderated_at: row.moderated_at ? new Date(row.moderated_at) : null,
+      location: row.location,
+      amount: row.amount != null ? Number(row.amount) : null,
+      money_taken: row.money_taken,
+      reported_to_police: row.reported_to_police,
+      events: parseEvents(row.events),
+    };
+  } catch {
+    return null;
+  }
 }
 
 export async function runMigrations(): Promise<void> {

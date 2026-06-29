@@ -2,11 +2,14 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import RadarHero from '../components/RadarHero.astro';
 import { getCollection } from 'astro:content';
+import { getApprovedExperiences } from '../lib/db';
+import { experienceTitle, experienceExcerpt, experienceDate } from '../lib/experiences';
 
 const allArticles = await getCollection('truffe');
 const articles = allArticles
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+const experiences = (await getApprovedExperiences()).slice(0, 3);
 ---
 
 <PageLayout>
@@ -23,8 +26,8 @@ const articles = allArticles
             Aiutaci a <span class="gradient-text-warm">smascherare</span> i truffatori
           </h1>
           <p class="text-lg text-ink-muted leading-relaxed mb-8 max-w-lg animate-on-load-delay-2">
-            Segnala la tua esperienza e contribuisci al database collettivo
-            di informazioni sulle truffe online in Italia.
+            Segnala la tua esperienza e contribuisci all'archivio collettivo
+            di storie sulle truffe online in Italia.
             Anche un tentativo non riuscito fa la differenza.
           </p>
           <div class="flex flex-wrap gap-3 animate-on-load-delay-2">
@@ -35,6 +38,7 @@ const articles = allArticles
               Segnala una truffa
             </a>
             <a href="/truffe" class="btn-secondary">Esplora le truffe</a>
+            <a href="/esperienze" class="btn-secondary">Leggi le esperienze</a>
           </div>
         </div>
 
@@ -71,7 +75,7 @@ const articles = allArticles
       <p class="section-label mb-3">Il processo</p>
       <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-3">Come funziona</h2>
       <p class="text-ink-muted">
-        Un archivio collaborativo per documentare truffe, tecniche e profili di truffatori.
+        Un archivio collaborativo di guide e storie reali per documentare truffe e tecniche usate in Italia.
       </p>
     </div>
 
@@ -89,7 +93,7 @@ const articles = allArticles
       <div class="glass-card p-7 group hover:border-accent/30 transition-all duration-300">
         <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent font-mono font-bold text-sm mb-5 transition-shadow">03</div>
         <h3 class="font-display text-xl font-semibold text-ink mb-2">Proteggi</h3>
-        <p class="text-sm text-ink-muted leading-relaxed">Le segnalazioni alimentano il database pubblico e aiutano altri a non cadere nella stessa trappola.</p>
+        <p class="text-sm text-ink-muted leading-relaxed">Le storie approvate vengono pubblicate e aiutano altri a non cadere nella stessa trappola.</p>
       </div>
     </div>
   </section>
@@ -133,6 +137,48 @@ const articles = allArticles
 
       <a href="/truffe" class="sm:hidden btn-secondary w-full mt-6 text-center">Vedi tutte le guide</a>
     </div>
+  </section>
+
+  <!-- Latest experiences -->
+  <section class="page-container py-20 md:py-24">
+    <div class="flex items-end justify-between mb-10 gap-4">
+      <div>
+        <p class="section-label mb-3">Dalla community</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-2">Esperienze reali</h2>
+        <p class="text-ink-muted">Storie personali moderate, raccontate da chi ha vissuto una truffa</p>
+      </div>
+      <a href="/esperienze" class="hidden sm:inline-flex btn-ghost text-trust shrink-0">
+        Vedi tutte
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+
+    {experiences.length === 0 ? (
+      <div class="glass-card p-8 text-center">
+        <p class="text-sm text-ink-muted mb-4">Ancora nessuna storia pubblicata. Sii il primo a condividere la tua.</p>
+        <a href="/segnala" class="btn-secondary text-sm">Racconta la tua esperienza</a>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {experiences.map((exp) => (
+          <a href={`/esperienze/${exp.id}`} class="group article-card">
+            <div class="h-1 bg-gradient-to-r from-alert/60 via-accent/50 to-trust/80"></div>
+            <div class="p-6 flex flex-col flex-1">
+              {exp.location && <span class="tag mb-4 w-fit">{exp.location}</span>}
+              <h3 class="font-display text-xl font-semibold text-ink group-hover:text-trust transition-colors mb-2 line-clamp-2">
+                {experienceTitle(exp)}
+              </h3>
+              <p class="text-sm text-ink-muted line-clamp-3 flex-1">{experienceExcerpt(exp)}</p>
+              <time datetime={experienceDate(exp).toISOString()} class="block text-xs font-mono text-ink-faint mt-5 pt-4 border-t border-white/[0.06]">
+                {experienceDate(exp).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+
+    <a href="/esperienze" class="sm:hidden btn-secondary w-full mt-6 text-center">Vedi tutte le esperienze</a>
   </section>
 
   <!-- CTA -->
