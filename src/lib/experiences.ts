@@ -29,7 +29,7 @@ export function experienceTitle(exp: PublicExperience): string {
     return desc.length > 72 ? `${desc.slice(0, 72)}…` : desc;
   }
   if (exp.location) return `Truffa segnalata: ${exp.location}`;
-  return `Esperienza segnalata #${exp.id}`;
+  return `Storia segnalata #${exp.id}`;
 }
 
 export function experienceExcerpt(exp: PublicExperience): string {

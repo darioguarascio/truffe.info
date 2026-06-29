@@ -1,0 +1,87 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { getApprovedExperiences } from '../../lib/db';
+import { experienceTitle, experienceExcerpt, experienceDate } from '../../lib/experiences';
+
+const stories = await getApprovedExperiences();
+---
+
+<PageLayout
+  title="Storie di truffa | Truffe.info"
+  description="Resoconti in prima persona di chi ha subito o rischiato una truffa in Italia. Contenuti moderati dalla community."
+>
+  <PageHero
+    eyebrow="Community"
+    title="Storie di truffa"
+    description="Resoconti raccontati in prima persona da chi ha subito una truffa o un tentativo. Ogni storia è moderata prima della pubblicazione."
+  />
+
+  <div class="page-container py-12 md:py-16">
+    <div class="callout-info mb-10 max-w-3xl">
+      <p class="text-sm text-ink-muted">
+        I nomi degli autori non vengono pubblicati. I contenuti riflettono il resoconto personale
+        di chi segnala e sono soggetti alle <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
+      </p>
+    </div>
+
+    {stories.length === 0 ? (
+      <div class="glass-card p-10 md:p-14 text-center max-w-2xl mx-auto">
+        <div class="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mx-auto mb-5">
+          <svg class="w-8 h-8 text-ink-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+          </svg>
+        </div>
+        <h2 class="font-display text-2xl font-semibold text-ink mb-2">Nessuna storia pubblicata ancora</h2>
+        <p class="text-sm text-ink-muted mb-8 max-w-md mx-auto">
+          Le segnalazioni verranno pubblicate dopo la moderazione. Sii il primo a raccontare cosa ti è successo.
+        </p>
+        <a href="/segnala" class="btn-primary text-sm">Segnala una truffa</a>
+      </div>
+    ) : (
+      <>
+        <p class="text-sm font-mono text-ink-faint mb-8">{stories.length} {stories.length === 1 ? 'storia' : 'storie'} pubblicate</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {stories.map((story) => (
+            <a href={`/storie/${story.id}`} class="group article-card">
+              <div class="h-1 bg-gradient-to-r from-trust/80 via-accent/50 to-alert/60"></div>
+              <div class="p-6 flex flex-col flex-1">
+                {story.location && (
+                  <span class="tag mb-4 w-fit">{story.location}</span>
+                )}
+                <h2 class="font-display text-xl font-semibold text-ink group-hover:text-trust transition-colors mb-2 line-clamp-2">
+                  {experienceTitle(story)}
+                </h2>
+                <p class="text-sm text-ink-muted flex-1 leading-relaxed line-clamp-3">
+                  {experienceExcerpt(story)}
+                </p>
+                <div class="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-white/[0.06] text-xs font-mono text-ink-faint">
+                  <time datetime={experienceDate(story).toISOString()}>
+                    {experienceDate(story).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </time>
+                  {story.money_taken === true && <span class="text-alert">Denaro sottratto</span>}
+                  {story.money_taken === false && <span class="text-trust">Tentativo bloccato</span>}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+</PageLayout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

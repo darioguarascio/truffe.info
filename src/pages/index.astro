@@ -26,7 +26,7 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
             Aiutaci a <span class="gradient-text-warm">smascherare</span> i truffatori
           </h1>
           <p class="text-lg text-ink-muted leading-relaxed mb-8 max-w-lg animate-on-load-delay-2">
-            Segnala la tua esperienza e contribuisci all'archivio collettivo
+            Segnala cosa ti è successo e contribuisci all'archivio collettivo
             di storie sulle truffe online in Italia.
             Anche un tentativo non riuscito fa la differenza.
           </p>
@@ -38,7 +38,7 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
               Segnala una truffa
             </a>
             <a href="/truffe" class="btn-secondary">Esplora le truffe</a>
-            <a href="/esperienze" class="btn-secondary">Leggi le esperienze</a>
+            <a href="/storie" class="btn-secondary">Leggi le storie</a>
           </div>
         </div>
 
@@ -144,10 +144,10 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
     <div class="flex items-end justify-between mb-10 gap-4">
       <div>
         <p class="section-label mb-3">Dalla community</p>
-        <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-2">Esperienze reali</h2>
-        <p class="text-ink-muted">Storie personali moderate, raccontate da chi ha vissuto una truffa</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-2">Storie di truffa</h2>
+        <p class="text-ink-muted">Resoconti in prima persona da chi ha subito o rischiato una truffa</p>
       </div>
-      <a href="/esperienze" class="hidden sm:inline-flex btn-ghost text-trust shrink-0">
+      <a href="/storie" class="hidden sm:inline-flex btn-ghost text-trust shrink-0">
         Vedi tutte
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
@@ -156,12 +156,12 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
     {experiences.length === 0 ? (
       <div class="glass-card p-8 text-center">
         <p class="text-sm text-ink-muted mb-4">Ancora nessuna storia pubblicata. Sii il primo a condividere la tua.</p>
-        <a href="/segnala" class="btn-secondary text-sm">Racconta la tua esperienza</a>
+        <a href="/segnala" class="btn-secondary text-sm">Segnala una truffa</a>
       </div>
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         {experiences.map((exp) => (
-          <a href={`/esperienze/${exp.id}`} class="group article-card">
+          <a href={`/storie/${exp.id}`} class="group article-card">
             <div class="h-1 bg-gradient-to-r from-alert/60 via-accent/50 to-trust/80"></div>
             <div class="p-6 flex flex-col flex-1">
               {exp.location && <span class="tag mb-4 w-fit">{exp.location}</span>}
@@ -178,7 +178,7 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
       </div>
     )}
 
-    <a href="/esperienze" class="sm:hidden btn-secondary w-full mt-6 text-center">Vedi tutte le esperienze</a>
+    <a href="/storie" class="sm:hidden btn-secondary w-full mt-6 text-center">Vedi tutte le storie</a>
   </section>
 
   <!-- CTA -->
