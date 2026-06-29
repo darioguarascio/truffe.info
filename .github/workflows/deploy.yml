@@ -76,6 +76,6 @@ jobs:
             echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST || 'postgresql' }}" >> .env
             echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT || '5432' }}" >> .env
             echo "APP_PORT=${{ secrets.APP_PORT || '4321' }}" >> .env
-            docker compose -f docker-compose.prod.yml pull
-            docker compose -f docker-compose.prod.yml up -d
+            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml up -d
             docker image prune -f
