@@ -1,3 +1,6 @@
+# Template per docker-compose di produzione
+# Generato automaticamente dalla GitHub Action al push di un tag
+
 services:
   postgresql:
     image: postgres:16-alpine
@@ -5,27 +8,24 @@ services:
     restart: unless-stopped
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
-      POSTGRES_USER: truffe
-      POSTGRES_PASSWORD: truffe
-      POSTGRES_DB: truffe
-    ports:
-      - "127.0.0.1:5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-truffe}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U truffe"]
-      interval: 5s
-      timeout: 3s
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
       retries: 5
 
   app:
-    build: .
+    image: darioguarascio/truffe.info:${IMAGE_TAG}
     container_name: truffe.app
     restart: unless-stopped
     ports:
-      - "127.0.0.1:4321:4321"
+      - "${APP_PORT:-4321}:4321"
     environment:
-      DATABASE_URL: postgresql://truffe:truffe@postgresql:5432/truffe
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB:-truffe}
       HOST: 0.0.0.0
       PORT: 4321
       UPLOAD_DIR: /app/uploads

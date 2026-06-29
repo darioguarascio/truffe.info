@@ -1,0 +1,65 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-white/70 mt-auto">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <img src="/favicon.svg" alt="" class="w-7 h-7 brightness-0 invert opacity-80" width="28" height="28" />
+          <span class="font-display text-lg text-white">Truffe.info</span>
+        </div>
+        <p class="text-sm leading-relaxed max-w-md">
+          Progetto open source dedicato alla raccolta e diffusione di informazioni
+          sulle truffe in Italia. Ogni segnalazione, anche di un tentativo non riuscito,
+          contribuisce a proteggere gli altri.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-white text-sm font-semibold mb-4">Navigazione</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/truffe" class="hover:text-white transition-colors">Tipi di truffa</a></li>
+          <li><a href="/segnala" class="hover:text-white transition-colors">Segnala una truffa</a></li>
+          <li><a href="/database" class="hover:text-white transition-colors">Database truffatori</a></li>
+          <li><a href="/chi-siamo" class="hover:text-white transition-colors">Chi siamo</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-white text-sm font-semibold mb-4">Risorse utili</h3>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="https://www.commissariatodips.it/" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+              Polizia Postale
+            </a>
+          </li>
+          <li>
+            <a href="https://www.consob.it/" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+              CONSOB
+            </a>
+          </li>
+          <li>
+            <a href="https://www.garanteprivacy.it/" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+              Garante Privacy
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/darioguarascio/truffe.info" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+              Codice sorgente
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+      <p>&copy; {year} Truffe.info — Progetto open source sotto licenza MIT</p>
+      <div class="flex gap-4">
+        <a href="/privacy" class="hover:text-white transition-colors">Privacy</a>
+        <a href="/termini" class="hover:text-white transition-colors">Termini</a>
+      </div>
+    </div>
+  </div>
+</footer>

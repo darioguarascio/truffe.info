@@ -1,0 +1,41 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Database truffatori | Truffe.info"
+  description="Database pubblico dei truffatori segnalati in Italia. Consulta gli identikit e i nomi in codice."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <header class="mb-10">
+      <h1 class="font-display text-4xl text-ink mb-3">Database truffatori</h1>
+      <p class="text-ink-muted max-w-2xl">
+        Registro pubblico degli identikit dei truffatori segnalati dalla community.
+        Ogni segnalazione contribuisce a costruire profili che aiutano altri a riconoscere schemi ricorrenti.
+      </p>
+    </header>
+
+    <div class="bg-trust-light border border-trust/20 rounded-xl p-6 mb-10">
+      <h2 class="font-semibold text-trust mb-2">Database in costruzione</h2>
+      <p class="text-sm text-ink-muted">
+        Stiamo ricostruendo il database a partire dalle nuove segnalazioni.
+        Se hai già segnalato una truffa in passato, ti invitiamo a compilare nuovamente il
+        <a href="/segnala" class="text-trust hover:underline font-medium">modulo di segnalazione</a>.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-card border border-ink/5 p-8 text-center">
+      <div class="w-16 h-16 bg-paper-warm rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-ink-faint" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </div>
+      <h2 class="font-display text-xl text-ink mb-2">Nessun profilo pubblico ancora</h2>
+      <p class="text-sm text-ink-muted mb-6 max-w-md mx-auto">
+        I profili verranno pubblicati dopo la verifica delle segnalazioni ricevute.
+        Contribuisci inviando la tua esperienza.
+      </p>
+      <a href="/segnala" class="btn-primary text-sm">Segnala una truffa</a>
+    </div>
+  </div>
+</PageLayout>

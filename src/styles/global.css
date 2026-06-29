@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent-soft text-ink;
+  }
+}
+
+@layer components {
+  .prose-truffe {
+    @apply text-ink-muted leading-relaxed;
+  }
+
+  .prose-truffe h2 {
+    @apply font-display text-2xl text-ink mt-10 mb-4;
+  }
+
+  .prose-truffe h3 {
+    @apply font-sans text-lg font-semibold text-ink mt-8 mb-3;
+  }
+
+  .prose-truffe p {
+    @apply mb-4;
+  }
+
+  .prose-truffe ul, .prose-truffe ol {
+    @apply mb-4 pl-6 space-y-2;
+  }
+
+  .prose-truffe ul {
+    @apply list-disc;
+  }
+
+  .prose-truffe ol {
+    @apply list-decimal;
+  }
+
+  .prose-truffe strong {
+    @apply text-ink font-semibold;
+  }
+
+  .prose-truffe blockquote {
+    @apply border-l-4 border-accent pl-4 italic text-ink-muted my-6;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-alert text-white font-semibold rounded-lg
+           hover:bg-red-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-alert focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-trust border border-trust/20 font-semibold rounded-lg
+           hover:bg-trust-light transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-trust focus-visible:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-ink-muted font-medium rounded-lg
+           hover:bg-paper-warm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-trust;
+  }
+
+  .form-label {
+    @apply block text-sm font-semibold text-ink mb-1.5;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2.5 bg-white border border-ink/10 rounded-lg text-ink
+           placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-trust/30 focus:border-trust transition-colors;
+  }
+
+  .form-hint {
+    @apply text-xs text-ink-faint mt-1.5;
+  }
+
+  .form-error {
+    @apply text-xs text-alert mt-1.5;
+  }
+}

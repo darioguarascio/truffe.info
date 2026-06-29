@@ -1,69 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Truffe.info
 
-## Getting Started
+Database collettivo di informazioni sulle truffe online in Italia.
 
-First, run the development server:
+Progetto open source: [Astro](https://astro.build) + PostgreSQL. Sostituisce la precedente stack Next.js + Directus + Jotform.
+
+## Funzionalità
+
+- Guide sulle truffe più comuni (markdown statico)
+- Modulo multi-step per segnalare truffe con allegati
+- Dichiarazione di responsabilità e conservazione metadati legali (IP, user agent)
+- Database truffatori (in costruzione dalle segnalazioni)
+
+## Sviluppo locale
 
 ```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
---
-
-##
-
-### Varnish setup
-
-sample file for `.config/varnish_backends.vcl`
-
-```
-backend backend_node_0 {
-    .host = "scammers.node";
-    .port = "3000";
-    .connect_timeout = 5s;
-    .first_byte_timeout = 15s;
-    .between_bytes_timeout = 1s;
-}
-sub vcl_init {
-    new be_web = directors.round_robin();
-    be_web.add_backend(backend_node_0);
-}
-
-sub host_to_backend_hinting {
-    set req.backend_hint = be_web.backend();
-}
-```
-
-### Directus Docker initial setup for extension
-
-Exectue before running Directus in Docker the first time
-
-```sh
-cd directus-extensions/jotform
+cp .env.example .env
+docker compose up -d postgresql
 npm install
+npm run dev
 ```
+
+Apri http://localhost:4321
+
+## Produzione con Docker
+
+```bash
+docker compose up -d
+```
+
+## Deploy
+
+Il push di un tag `v*` (es. `v2.0.0`) attiva la GitHub Action che:
+
+1. Costruisce e pubblica l'immagine su Docker Hub (`darioguarascio/truffe.info`)
+2. Genera `docker-compose.prod.yml` dal template
+3. Deploy via SSH sul server di produzione
+
+### Secrets GitHub richiesti
+
+| Secret | Descrizione |
+|--------|-------------|
+| `DOCKERHUB_USERNAME` | Username Docker Hub |
+| `DOCKERHUB_TOKEN` | Token Docker Hub |
+| `DEPLOY_HOST` | Hostname/IP del server |
+| `DEPLOY_USER` | Username SSH |
+| `DEPLOY_SSH_KEY` | Chiave SSH privata |
+| `DEPLOY_PORT` | Porta SSH (default 22) |
+| `DEPLOY_PATH` | Path sul server (es. `/opt/truffe.info`) |
+| `POSTGRES_USER` | User PostgreSQL produzione |
+| `POSTGRES_PASSWORD` | Password PostgreSQL produzione |
+| `POSTGRES_DB` | Nome database (default: truffe) |
+| `APP_PORT` | Porta esposta (default: 4321) |
+
+## Licenza
+
+MIT — vedi [LICENSE](LICENSE)

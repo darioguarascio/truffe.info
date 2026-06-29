@@ -1,0 +1,423 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="Segnala una truffa | Truffe.info" description="Modulo di segnalazione truffe. Racconta la tua esperienza e contribuisci al database collettivo.">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <header class="mb-8">
+      <h1 class="font-display text-3xl md:text-4xl text-ink mb-2">Modulo segnalazione truffa</h1>
+      <p class="text-ink-muted">Anche un tentativo non riuscito contribuisce alla profilazione</p>
+    </header>
+
+    <!-- Progress bar -->
+    <div class="mb-8">
+      <div class="flex justify-between text-xs text-ink-faint mb-2">
+        <span id="step-label">Passo 1 di 5</span>
+        <span id="step-name">Informazioni base</span>
+      </div>
+      <div class="h-1.5 bg-paper-warm rounded-full overflow-hidden">
+        <div id="progress-bar" class="h-full bg-trust transition-all duration-300 rounded-full" style="width: 20%"></div>
+      </div>
+    </div>
+
+    <form id="segnala-form" class="bg-white rounded-xl shadow-card border border-ink/5 p-6 md:p-8" enctype="multipart/form-data">
+      <!-- Step 1: Basic info -->
+      <div class="form-step" data-step="1">
+        <h2 class="font-display text-xl text-ink mb-6 pb-3 border-b border-ink/10">Informazioni sulla truffa</h2>
+
+        <div class="space-y-5">
+          <div>
+            <label class="form-label" for="luogo">Dove è avvenuta la truffa</label>
+            <input type="text" id="luogo" name="luogo" class="form-input" placeholder="Es. sito web, telefono, di persona..." />
+            <p class="form-hint">Se online, inserisci il sito web dove è avvenuto il primo contatto</p>
+          </div>
+
+          <div>
+            <label class="form-label" for="importo">Importo della truffa</label>
+            <input type="number" id="importo" name="importo" class="form-input" min="0" step="0.01" placeholder="0.00" />
+            <p class="form-hint">Indica di quanto denaro si tratta (€). Lascia vuoto se non applicabile.</p>
+          </div>
+
+          <div>
+            <p class="form-label">Il truffatore è riuscito a sottrarti il denaro?</p>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="denaro_sottratto" value="si" class="accent-trust" />
+                <span class="text-sm">Sì</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="denaro_sottratto" value="no" class="accent-trust" />
+                <span class="text-sm">No</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <p class="form-label">Hai sporto denuncia alle autorità?</p>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="denuncia_polizia" value="si" class="accent-trust" />
+                <span class="text-sm">Sì</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="denuncia_polizia" value="no" class="accent-trust" />
+                <span class="text-sm">No</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Timeline -->
+      <div class="form-step hidden" data-step="2">
+        <h2 class="font-display text-xl text-ink mb-2">Descrizione della truffa</h2>
+        <p class="text-sm text-ink-muted mb-6">
+          Descrivi gli avvenimenti in ordine cronologico, includendo ogni dettaglio possibile.
+        </p>
+
+        <div id="eventi-container" class="space-y-6">
+          <div class="evento-item border border-ink/10 rounded-lg p-4">
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="form-label text-xs">Data</label>
+                <input type="date" class="form-input evento-data" />
+              </div>
+              <div>
+                <label class="form-label text-xs">Ora</label>
+                <input type="time" class="form-input evento-ora" />
+              </div>
+            </div>
+            <div>
+              <label class="form-label text-xs">Descrizione</label>
+              <textarea class="form-input evento-desc min-h-[100px] resize-y" placeholder="Descrivi cosa è successo..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" id="add-evento" class="mt-4 btn-ghost text-trust border border-trust/20 w-full">
+          + Aggiungi un altro evento
+        </button>
+      </div>
+
+      <!-- Step 3: Files -->
+      <div class="form-step hidden" data-step="3">
+        <h2 class="font-display text-xl text-ink mb-2">Documentazione e file</h2>
+        <p class="text-sm text-ink-muted mb-6">
+          Se disponi di materiale multimediale (audio, video, foto, ecc.), caricalo qui.
+        </p>
+
+        <div
+          id="drop-zone"
+          class="border-2 border-dashed border-ink/15 rounded-xl p-10 text-center hover:border-trust/40 transition-colors cursor-pointer"
+        >
+          <svg class="w-12 h-12 mx-auto text-trust/40 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <p class="font-semibold text-ink mb-1">Sfoglia file</p>
+          <p class="text-xs text-ink-faint">Trascina i file qui o clicca per selezionarli</p>
+          <p class="text-xs text-ink-faint mt-2">Max 25 MB per file. JPG, PNG, PDF, MP3, MP4</p>
+          <input type="file" id="file-input" name="allegati" multiple accept="image/*,audio/*,video/*,application/pdf,text/plain" class="hidden" />
+        </div>
+
+        <ul id="file-list" class="mt-4 space-y-2"></ul>
+      </div>
+
+      <!-- Step 4: Scammer -->
+      <div class="form-step hidden" data-step="4">
+        <h2 class="font-display text-xl text-ink mb-6 pb-3 border-b border-ink/10">Identificazione truffatore</h2>
+
+        <div class="space-y-5">
+          <div>
+            <p class="text-sm text-ink-muted mb-3">
+              Sei riuscito a identificare il truffatore dal nostro
+              <a href="/database" class="text-trust hover:underline">database pubblico</a>?
+              Inserisci il suo nome in codice.
+            </p>
+            <label class="form-label" for="truffatore_codename">Nome in codice del truffatore</label>
+            <input type="text" id="truffatore_codename" name="truffatore_codename" class="form-input" />
+          </div>
+
+          <hr class="border-ink/10" />
+
+          <p class="text-sm text-ink-muted">
+            Altrimenti, se non hai trovato riscontri ma pensi di essere in possesso di informazioni utili per creare un nuovo identikit, rispondi alle seguenti domande.
+          </p>
+
+          <div>
+            <p class="form-label">Sesso</p>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="truffatore_sesso" value="uomo" class="accent-trust" />
+                <span class="text-sm">Uomo</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="truffatore_sesso" value="donna" class="accent-trust" />
+                <span class="text-sm">Donna</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label" for="truffatore_nazionalita">Nazionalità</label>
+            <input type="text" id="truffatore_nazionalita" name="truffatore_nazionalita" class="form-input" />
+            <p class="form-hint">Italiano o straniero</p>
+          </div>
+
+          <div>
+            <label class="form-label" for="truffatore_nome">Nome</label>
+            <input type="text" id="truffatore_nome" name="truffatore_nome" class="form-input" />
+            <p class="form-hint">Anche se falso, potrebbe essere stato utilizzato più volte</p>
+          </div>
+
+          <div>
+            <label class="form-label" for="truffatore_telefono">Numero di telefono</label>
+            <input type="tel" id="truffatore_telefono" name="truffatore_telefono" class="form-input" />
+          </div>
+
+          <div>
+            <label class="form-label" for="truffatore_caratteristiche">Caratteristiche e segni particolari</label>
+            <textarea id="truffatore_caratteristiche" name="truffatore_caratteristiche" class="form-input min-h-[100px] resize-y" placeholder="Accenti, tonalità della voce, particolari che potrebbero essere d'aiuto..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Personal + Declaration -->
+      <div class="form-step hidden" data-step="5">
+        <h2 class="font-display text-xl text-ink mb-6 pb-3 border-b border-ink/10">I tuoi dati</h2>
+
+        <div class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="form-label" for="vittima_nome">Nome *</label>
+              <input type="text" id="vittima_nome" name="vittima_nome" class="form-input" required />
+            </div>
+            <div>
+              <label class="form-label" for="vittima_cognome">Cognome *</label>
+              <input type="text" id="vittima_cognome" name="vittima_cognome" class="form-input" required />
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label" for="vittima_email">Email *</label>
+            <input type="email" id="vittima_email" name="vittima_email" class="form-input" required />
+            <p class="form-hint">Servirà per mettersi in contatto con te per comunicarti eventuali aggiornamenti</p>
+          </div>
+
+          <hr class="border-ink/10" />
+
+          <div class="bg-paper-warm rounded-lg p-4 border border-ink/10">
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" id="dichiarazione" name="dichiarazione_accettata" required class="mt-1 accent-trust" />
+              <span class="text-sm text-ink-muted leading-relaxed">
+                <strong class="text-ink">Dichiarazione di responsabilità:</strong> dichiaro sotto la mia responsabilità
+                che tutte le informazioni fornite in questo modulo sono veritiere e accurate al meglio delle mie conoscenze.
+                Sono consapevole che la trasmissione di dati falsi può costituire reato ai sensi del Codice Penale italiano.
+                Acconsento alla conservazione dei dati di invio (indirizzo IP, data e ora) per finalità legali e di verifica.
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex justify-between mt-8 pt-6 border-t border-ink/10">
+        <button type="button" id="btn-prev" class="btn-ghost hidden">← Indietro</button>
+        <div class="flex-1"></div>
+        <button type="button" id="btn-next" class="btn-primary">Avanti →</button>
+        <button type="submit" id="btn-submit" class="btn-primary hidden">Invia segnalazione</button>
+      </div>
+
+      <div id="form-error" class="hidden mt-4 p-3 bg-alert-soft text-alert text-sm rounded-lg"></div>
+    </form>
+
+    <!-- Success message -->
+    <div id="success-message" class="hidden bg-white rounded-xl shadow-card border border-ink/5 p-8 md:p-12 text-center">
+      <div class="w-16 h-16 bg-trust-light rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-trust" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h2 class="font-display text-2xl text-ink mb-2">Segnalazione inviata</h2>
+      <p class="text-ink-muted mb-6">Grazie per il tuo contributo. La tua segnalazione è stata registrata e verrà esaminata.</p>
+      <a href="/" class="btn-secondary">Torna alla home</a>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  const STEPS = [
+    { name: 'Informazioni base' },
+    { name: 'Descrizione' },
+    { name: 'Documentazione' },
+    { name: 'Truffatore' },
+    { name: 'I tuoi dati' },
+  ];
+
+  let currentStep = 1;
+  const totalSteps = STEPS.length;
+  const selectedFiles = [];
+
+  const form = document.getElementById('segnala-form');
+  const steps = document.querySelectorAll('.form-step');
+  const progressBar = document.getElementById('progress-bar');
+  const stepLabel = document.getElementById('step-label');
+  const stepName = document.getElementById('step-name');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const btnSubmit = document.getElementById('btn-submit');
+  const formError = document.getElementById('form-error');
+  const successMessage = document.getElementById('success-message');
+
+  function showStep(step) {
+    currentStep = step;
+    steps.forEach((el) => {
+      const s = parseInt(el.dataset.step || '0');
+      el.classList.toggle('hidden', s !== step);
+    });
+    progressBar.style.width = `${(step / totalSteps) * 100}%`;
+    stepLabel.textContent = `Passo ${step} di ${totalSteps}`;
+    stepName.textContent = STEPS[step - 1].name;
+    btnPrev.classList.toggle('hidden', step === 1);
+    btnNext.classList.toggle('hidden', step === totalSteps);
+    btnSubmit.classList.toggle('hidden', step !== totalSteps);
+    formError.classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep(step) {
+    if (step === 5) {
+      const nome = document.getElementById('vittima_nome').value.trim();
+      const cognome = document.getElementById('vittima_cognome').value.trim();
+      const email = document.getElementById('vittima_email').value.trim();
+      const dich = document.getElementById('dichiarazione').checked;
+      if (!nome || !cognome || !email) {
+        formError.textContent = 'Compila tutti i campi obbligatori.';
+        formError.classList.remove('hidden');
+        return false;
+      }
+      if (!dich) {
+        formError.textContent = 'Devi accettare la dichiarazione di responsabilità.';
+        formError.classList.remove('hidden');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (validateStep(currentStep) && currentStep < totalSteps) {
+      showStep(currentStep + 1);
+    }
+  });
+
+  btnPrev.addEventListener('click', () => {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
+
+  // Eventi timeline
+  document.getElementById('add-evento')?.addEventListener('click', () => {
+    const container = document.getElementById('eventi-container');
+    const template = container.querySelector('.evento-item').cloneNode(true);
+    template.querySelectorAll('input, textarea').forEach((el) => {
+      el.value = '';
+    });
+    container.appendChild(template);
+  });
+
+  // File upload
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const fileList = document.getElementById('file-list');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-trust'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-trust'));
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('border-trust');
+    if (e.dataTransfer?.files) addFiles(Array.from(e.dataTransfer.files));
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files) addFiles(Array.from(fileInput.files));
+  });
+
+  function addFiles(files) {
+    files.forEach((f) => {
+      if (!selectedFiles.some((s) => s.name === f.name && s.size === f.size)) {
+        selectedFiles.push(f);
+      }
+    });
+    renderFileList();
+  }
+
+  function renderFileList() {
+    fileList.innerHTML = selectedFiles.map((f, i) =>
+      `<li class="flex items-center justify-between text-sm bg-paper-warm px-3 py-2 rounded-lg">
+        <span class="truncate">${f.name} (${(f.size / 1024).toFixed(0)} KB)</span>
+        <button type="button" data-index="${i}" class="text-alert hover:underline ml-2 shrink-0">Rimuovi</button>
+      </li>`
+    ).join('');
+    fileList.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        selectedFiles.splice(parseInt(btn.dataset.index), 1);
+        renderFileList();
+      });
+    });
+  }
+
+  function collectEventi() {
+    return Array.from(document.querySelectorAll('.evento-item')).map((item) => ({
+      data: item.querySelector('.evento-data').value,
+      ora: item.querySelector('.evento-ora').value,
+      descrizione: item.querySelector('.evento-desc').value,
+    })).filter((e) => e.descrizione.trim());
+  }
+
+  function getRadio(name) {
+    const checked = form.querySelector(`input[name="${name}"]:checked`);
+    if (!checked) return undefined;
+    return checked.value === 'si';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateStep(5)) return;
+
+    btnSubmit.setAttribute('disabled', 'true');
+    btnSubmit.textContent = 'Invio in corso...';
+    formError.classList.add('hidden');
+
+    const fd = new FormData();
+    fd.append('luogo', document.getElementById('luogo').value);
+    fd.append('importo', document.getElementById('importo').value);
+    fd.append('denaro_sottratto', String(getRadio('denaro_sottratto') ?? ''));
+    fd.append('denuncia_polizia', String(getRadio('denuncia_polizia') ?? ''));
+    fd.append('eventi', JSON.stringify(collectEventi()));
+    fd.append('truffatore_codename', document.getElementById('truffatore_codename').value);
+    fd.append('truffatore_sesso', form.querySelector('input[name="truffatore_sesso"]:checked')?.value ?? '');
+    fd.append('truffatore_nazionalita', document.getElementById('truffatore_nazionalita').value);
+    fd.append('truffatore_nome', document.getElementById('truffatore_nome').value);
+    fd.append('truffatore_telefono', document.getElementById('truffatore_telefono').value);
+    fd.append('truffatore_caratteristiche', document.getElementById('truffatore_caratteristiche').value);
+    fd.append('vittima_nome', document.getElementById('vittima_nome').value);
+    fd.append('vittima_cognome', document.getElementById('vittima_cognome').value);
+    fd.append('vittima_email', document.getElementById('vittima_email').value);
+    fd.append('dichiarazione_accettata', 'true');
+    selectedFiles.forEach((f) => fd.append('allegati', f));
+
+    try {
+      const res = await fetch('/api/segnalazioni', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Errore durante l\'invio');
+      form.classList.add('hidden');
+      document.querySelector('header')?.classList.add('hidden');
+      document.getElementById('progress-bar')?.parentElement?.parentElement?.classList.add('hidden');
+      successMessage.classList.remove('hidden');
+    } catch (err) {
+      formError.textContent = err instanceof Error ? err.message : 'Errore durante l\'invio. Riprova.';
+      formError.classList.remove('hidden');
+      btnSubmit.removeAttribute('disabled');
+      btnSubmit.textContent = 'Invia segnalazione';
+    }
+  });
+</script>
