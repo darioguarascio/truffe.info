@@ -37,6 +37,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <script
+      is:inline
+      src="https://t.surl.it/api/script.js"
+      data-site-id="7"
+      defer
+    ></script>
   </head>
   <body class="min-h-screen flex flex-col">
     <slot name="header" />
@@ -44,12 +50,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <slot name="footer" />
-    <script
-      is:inline
-      src="https://t.surl.it/api/script.js"
-      data-site-id="7"
-      defer
-    ></script>
   </body>
 </html>
 

@@ -56,7 +56,7 @@ Pushing a `v*` tag (e.g. `v2.0.0`) triggers the GitHub Action that:
 | `POSTGRES_DB` | Database name (default: `truffe`) |
 | `POSTGRES_HOST` | PostgreSQL host |
 | `POSTGRES_PORT` | PostgreSQL port (default: `5432`) |
-| `APP_PORT` | Exposed app port (default: `4321`) |
+| `APP_PORT` | Host port binding for Docker (production: `127.0.0.1:8012`) |
 | `SMTP_HOST` | SMTP server |
 | `SMTP_PORT` | SMTP port (default: `587`) |
 | `SMTP_USER` | SMTP username |
