@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import ContentReportLink from '../../components/ContentReportLink.astro';
+import LegalNotice from '../../components/LegalNotice.astro';
 import { getApprovedExperienceById } from '../../lib/db';
 import { experienceTitle, experienceDate } from '../../lib/experiences';
 
@@ -45,6 +46,10 @@ const published = experienceDate(story);
         </p>
       )}
     </header>
+
+    <div class="my-8">
+      <LegalNotice compact />
+    </div>
 
     {story.events.length > 0 ? (
       <ol class="space-y-6">

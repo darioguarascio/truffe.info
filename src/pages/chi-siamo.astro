@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import LegalNotice from '../components/LegalNotice.astro';
 ---
 
 <PageLayout
@@ -13,7 +14,9 @@ import PageHero from '../components/PageHero.astro';
   />
 
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <div class="prose-truffe">
+    <LegalNotice compact />
+
+    <div class="prose-truffe mt-8">
       <p>
         <strong>Truffe.info</strong> nasce dall'esperienza diretta con le truffe online in Italia
         e dalla consapevolezza che l'informazione condivisa è la difesa più efficace.
@@ -34,6 +37,16 @@ import PageHero from '../components/PageHero.astro';
         <li><strong>Modulo di segnalazione</strong> — Raccolta strutturata di esperienze con cronologia eventi e allegati</li>
         <li><strong>Storie di truffa</strong> — Resoconti personali pubblicati dopo moderazione</li>
       </ul>
+
+      <h2>Perché la moderazione</h2>
+      <p>
+        In Italia <strong>esporre pubblicamente un presunto truffatore</strong> sui social — anche avendo ragione —
+        può configurare diffamazione e violazione della privacy. Truffe.info non promuove la «giustizia fai-da-te» online:
+        raccoglie resoconti <strong>moderati</strong>, anonimizzati dove necessario, nel rispetto della legge e per
+        proteggere chi segnala. Per i reati, la strada corretta resta la
+        <a href="https://www.commissariatodips.it/" target="_blank" rel="noopener">denuncia alla Polizia Postale</a>.
+        <a href="/truffe/esposizione-pubblica-truffatori-rischi-legali">Approfondisci i rischi legali →</a>
+      </p>
 
       <h2>Open source</h2>
       <p>

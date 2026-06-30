@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import ContentReportLink from '../../components/ContentReportLink.astro';
+import LegalNotice from '../../components/LegalNotice.astro';
 import { getEntry, render } from 'astro:content';
 
 const { slug } = Astro.params;
@@ -39,7 +40,9 @@ const description = article.data.meta_description ?? article.data.description;
     </div>
 
     <footer class="mt-14 pt-8 border-t border-white/[0.08]">
-      <div class="callout-warn mb-8">
+      <LegalNotice compact />
+
+      <div class="callout-warn mb-8 mt-6">
         <h2 class="font-display text-lg font-semibold text-ink mb-2">Ti è successo qualcosa di simile?</h2>
         <p class="text-sm text-ink-muted mb-4">
           Segnala la truffa per aiutare altri a riconoscerla. Anche un tentativo non riuscito è utile.

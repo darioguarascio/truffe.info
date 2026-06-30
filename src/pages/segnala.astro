@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import LegalNotice from '../components/LegalNotice.astro';
 ---
 
 <PageLayout title="Segnala una truffa | Truffe.info" description="Modulo di segnalazione truffe. Racconta la tua esperienza e contribuisci all'archivio collettivo.">
@@ -11,15 +12,22 @@ import PageHero from '../components/PageHero.astro';
   />
 
   <div class="max-w-2xl mx-auto px-4 sm:px-6 pb-12 md:pb-16">
-    <div class="callout-info mb-8 text-sm">
+    <LegalNotice />
+
+    <div class="callout-info mb-8 mt-6 text-sm">
       <p class="font-semibold text-ink mb-2">Prima di iniziare — regole importanti</p>
       <ul class="list-disc pl-5 space-y-1">
         <li>Racconta <strong>la tua esperienza</strong> in prima persona, senza insulti o accuse non dimostrabili</li>
-        <li>Non inserire dati personali di terzi (indirizzi, codici fiscali, email private)</li>
-        <li>Evita affermazioni categoriche su persone fisiche (es. "X è un criminale")</li>
+        <li><strong>Non pubblicare sui social</strong> nome, foto o accuse contro presunti truffatori — in Italia può essere illegale anche se hai ragione</li>
+        <li>Non inserire dati personali di terzi (indirizzi, codici fiscali, email private, documenti)</li>
+        <li>Evita affermazioni categoriche su persone fisiche identificabili (es. «X è un criminale»)</li>
+        <li>Per una truffa subita, presenta <strong>denuncia alla Polizia Postale</strong> oltre a segnalare qui</li>
         <li>La segnalazione <strong>non sarà pubblicata</strong> finché non verrà moderata</li>
       </ul>
-      <p class="mt-2">Leggi le <a href="/linee-guida" class="text-trust hover:underline font-medium">linee guida complete</a>.</p>
+      <p class="mt-2">
+        Leggi le <a href="/linee-guida" class="text-trust hover:underline font-medium">linee guida</a>
+        e la <a href="/truffe/esposizione-pubblica-truffatori-rischi-legali" class="text-trust hover:underline font-medium">guida sui rischi legali dell'esposizione pubblica</a>.
+      </p>
     </div>
 
     <!-- Progress bar -->
@@ -145,13 +153,14 @@ import PageHero from '../components/PageHero.astro';
 
         <div class="space-y-5">
           <p class="text-sm text-ink-muted">
-            Puoi descrivere chi ti ha contattato e come si è presentato.
-            <strong>Non inserire nomi completi di persone reali</strong> né dati personali non necessari.
+            Puoi descrivere chi ti ha contattato e come si è presentato, <strong>senza nominare pubblicamente</strong> persone identificabili.
+            Non usare Truffe.info come sostituto di un post sui social per «smascherare» qualcuno.
           </p>
 
           <div class="bg-alert/10 border border-alert/20 rounded-xl p-3 text-xs text-ink-muted">
-            I dati in questa sezione sono usati solo per moderazione interna e non vengono pubblicati automaticamente.
-            Numeri di telefono e nomi verranno anonimizzati prima di qualsiasi pubblicazione.
+            <strong class="text-ink">Ricorda:</strong> esporre un presunto truffatore su Facebook, TikTok o WhatsApp può costituire diffamazione in Italia, anche se ti ha truffato.
+            I dati in questa sezione servono solo alla moderazione interna, non vengono pubblicati automaticamente
+            e verranno anonimizzati prima di qualsiasi eventuale pubblicazione.
           </div>
 
           <div>

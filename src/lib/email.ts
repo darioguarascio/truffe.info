@@ -166,6 +166,8 @@ export async function notifyUserSubmissionReceived(data: {
       'Non verrà pubblicata finché non sarà approvata.',
       '',
       'Ricorda: racconta la tua esperienza in prima persona, senza insulti o accuse non dimostrabili.',
+      'Non pubblicare sui social nome o foto di presunti truffatori: in Italia può essere illegale anche se hai ragione.',
+      'Guida rischi legali: https://truffe.info/truffe/esposizione-pubblica-truffatori-rischi-legali',
       'Linee guida: https://truffe.info/linee-guida',
     ].join('\n'),
   });

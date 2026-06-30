@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import LegalNotice from '../../components/LegalNotice.astro';
 import { getApprovedExperiences } from '../../lib/db';
 import { experienceTitle, experienceExcerpt, experienceDate } from '../../lib/experiences';
 
@@ -18,10 +19,13 @@ const stories = await getApprovedExperiences();
   />
 
   <div class="page-container py-12 md:py-16">
-    <div class="callout-info mb-10 max-w-3xl">
+    <LegalNotice compact />
+
+    <div class="callout-info mb-10 mt-6 max-w-3xl">
       <p class="text-sm text-ink-muted">
-        I nomi degli autori non vengono pubblicati. I contenuti riflettono il resoconto personale
-        di chi segnala e sono soggetti alle <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
+        I nomi degli autori e dei presunti truffatori non vengono pubblicati.
+        I contenuti descrivono tecniche e fatti accaduti, non costituiscono accuse pubbliche identificabili.
+        Ogni storia rispetta le <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
       </p>
     </div>
 

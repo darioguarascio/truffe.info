@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import RadarHero from '../components/RadarHero.astro';
+import LegalNotice from '../components/LegalNotice.astro';
 import { getCollection } from 'astro:content';
 import { getApprovedExperiences } from '../lib/db';
 import { experienceTitle, experienceExcerpt, experienceDate } from '../lib/experiences';
@@ -69,6 +70,11 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
     </div>
   </section>
 
+  <!-- Legal awareness -->
+  <section class="page-container pb-8">
+    <LegalNotice />
+  </section>
+
   <!-- How it works -->
   <section class="page-container py-20 md:py-24">
     <div class="max-w-xl mb-12">
@@ -88,7 +94,7 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
       <div class="glass-card p-7 group hover:border-alert/30 transition-all duration-300">
         <div class="w-11 h-11 rounded-xl bg-alert/10 border border-alert/20 flex items-center justify-center text-alert font-mono font-bold text-sm mb-5 group-hover:shadow-glow-alert transition-shadow">02</div>
         <h3 class="font-display text-xl font-semibold text-ink mb-2">Segnala</h3>
-        <p class="text-sm text-ink-muted leading-relaxed">Racconta la tua esperienza con il modulo guidato. Puoi allegare prove e documentazione.</p>
+        <p class="text-sm text-ink-muted leading-relaxed">Racconta i fatti in modo responsabile: le storie passano da moderazione per rispettare la legge italiana e proteggere chi segnala.</p>
       </div>
       <div class="glass-card p-7 group hover:border-accent/30 transition-all duration-300">
         <div class="w-11 h-11 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent font-mono font-bold text-sm mb-5 transition-shadow">03</div>

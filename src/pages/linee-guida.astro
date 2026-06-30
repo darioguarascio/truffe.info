@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import LegalNotice from '../components/LegalNotice.astro';
 ---
 
 <PageLayout
@@ -10,8 +11,10 @@ import PageHero from '../components/PageHero.astro';
   <PageHero eyebrow="Community" title="Linee guida della community" />
 
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <div class="prose-truffe text-sm">
-      <p><em>Ultimo aggiornamento: giugno 2025</em></p>
+    <LegalNotice />
+
+    <div class="prose-truffe text-sm mt-8">
+      <p><em>Ultimo aggiornamento: giugno 2026</em></p>
 
       <p>
         Truffe.info raccoglie esperienze di persone che hanno subito una truffa
@@ -20,16 +23,34 @@ import PageHero from '../components/PageHero.astro';
         chiediamo a tutti di seguire queste regole.
       </p>
 
+      <h2>Esposizione pubblica e legge italiana</h2>
+      <p>
+        In Italia <strong>non è lecito esporre pubblicamente</strong> presunti truffatori o ladri sui social,
+        in gruppi WhatsApp/Telegram o su siti web, <strong>anche se la truffa è realmente accaduta</strong>.
+        Post con nome, foto o accuse identificabili possono configurare
+        <strong>diffamazione</strong> (art. 595 codice penale) e <strong>violazione della privacy</strong>,
+        con possibile responsabilità penale e civile per chi pubblica.
+      </p>
+      <p>
+        La strada corretta è la <strong>denuncia alle autorità</strong> (in particolare la
+        <a href="https://www.commissariatodips.it/" target="_blank" rel="noopener">Polizia Postale</a>)
+        e la descrizione dei fatti <em>senza processo mediatico</em>.
+        Leggi la guida:
+        <a href="/truffe/esposizione-pubblica-truffatori-rischi-legali">Perché non puoi esporre pubblicamente un truffatore</a>.
+      </p>
+
       <h2>Cosa puoi fare</h2>
       <ul>
         <li><strong>Raccontare la tua esperienza</strong> in prima persona, descrivendo fatti accaduti a te</li>
         <li>Usare formulazioni come <em>"questa è stata la mia esperienza"</em> o <em>"ho ricevuto una chiamata da qualcuno che si presentava come..."</em></li>
-        <li>Descrivere tecniche, messaggi, siti web o numeri usati nel tentativo di truffa</li>
+        <li>Descrivere tecniche, messaggi, siti web o numeri usati nel tentativo di truffa <strong>senza identificare pubblicamente persone fisiche</strong></li>
         <li>Segnalare aziende o servizi descrivendo l'interazione avuta, senza affermazioni categoriche non dimostrabili</li>
       </ul>
 
       <h2>Cosa non puoi fare</h2>
       <ul>
+        <li><strong>Pubblicare sui social</strong> nome, foto, video o accuse identificabili contro presunti truffatori</li>
+        <li><strong>Incitare</strong> altri a molestare, minacciare o ritorsions</li>
         <li><strong>Insultare</strong> o usare linguaggio offensivo</li>
         <li><strong>Accusare categoricamente</strong> persone fisiche (es. "Mario Rossi è un truffatore") senza che si tratti della tua esperienza diretta e verificabile</li>
         <li><strong>Pubblicare dati personali</strong> di terzi: indirizzi, email private, codici fiscali, documenti d'identità</li>
@@ -39,8 +60,10 @@ import PageHero from '../components/PageHero.astro';
 
       <h2>Persone fisiche vs aziende</h2>
       <p>
-        Nominare un <strong>individuo</strong> comporta un rischio legale maggiore (diffamazione).
-        Raccontare un'esperienza con un'<strong>azienda</strong> è generalmente meno delicato,
+        Nominare un <strong>individuo</strong> — online o su Truffe.info — comporta un rischio legale elevato.
+        Anche raccontare la tua storia in prima persona può essere problematico se include elementi
+        che rendono la persona facilmente identificabile e le attribuisce condotte criminali in modo categorico.
+        Raccontare un'interazione con un'<strong>azienda</strong> o un servizio è generalmente meno delicato,
         ma anche in quel caso evita accuse non supportate da fatti.
       </p>
 

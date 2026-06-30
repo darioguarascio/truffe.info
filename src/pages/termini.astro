@@ -1,14 +1,17 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import LegalNotice from '../components/LegalNotice.astro';
 ---
 
 <PageLayout title="Termini di utilizzo | Truffe.info" description="Termini e condizioni di utilizzo di Truffe.info">
   <PageHero eyebrow="Legale" title="Termini di utilizzo" />
 
   <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-    <div class="prose-truffe text-sm">
-      <p><em>Ultimo aggiornamento: giugno 2025</em></p>
+    <LegalNotice compact />
+
+    <div class="prose-truffe text-sm mt-8">
+      <p><em>Ultimo aggiornamento: giugno 2026</em></p>
 
       <h2>1. Accettazione</h2>
       <p>Utilizzando Truffe.info accetti i presenti termini e le <a href="/linee-guida" class="text-trust hover:underline">Linee guida della community</a>. Se non li accetti, ti preghiamo di non utilizzare il servizio.</p>
@@ -30,6 +33,7 @@ import PageHero from '../components/PageHero.astro';
         <li>Le informazioni fornite sono veritiere e accurate al meglio delle proprie conoscenze</li>
         <li>Racconta la propria esperienza senza insulti, diffamazioni o accuse non dimostrabili</li>
         <li>Non inserisce dati personali di terzi non necessari (indirizzi, codici fiscali, email private, ecc.)</li>
+        <li>È consapevole che <strong>esporre pubblicamente presunti truffatori</strong> (sui social o altrove) può costituire reato in Italia anche se la truffa è realmente accaduta — vedi la <a href="/truffe/esposizione-pubblica-truffatori-rischi-legali">guida sui rischi legali</a></li>
         <li>È consapevole che la trasmissione di dati falsi può costituire reato</li>
         <li>È l'unico responsabile del contenuto inviato</li>
       </ul>
