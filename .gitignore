@@ -13,6 +13,9 @@ dist/
 # uploads
 uploads/
 
+# jotform exports (PII)
+imported/
+
 # logs
 *.log
 
