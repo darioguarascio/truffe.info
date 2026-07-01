@@ -4,6 +4,7 @@ import ContentReportLink from '../../components/ContentReportLink.astro';
 import LegalNotice from '../../components/LegalNotice.astro';
 import { getEntry, render } from 'astro:content';
 import { formatDateIT } from '../../lib/dates';
+import { DEFAULT_OG_IMAGE } from '../../lib/site';
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect('/truffe');
@@ -15,9 +16,19 @@ const { Content } = await render(article);
 
 const title = article.data.meta_title ?? `${article.data.title} | Truffe.info`;
 const description = article.data.meta_description ?? article.data.description;
+const ogImage = article.data.image ?? DEFAULT_OG_IMAGE;
+const publishedTime = article.data.date.toISOString();
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout
+  title={title}
+  description={description}
+  image={ogImage}
+  imageAlt={article.data.title}
+  type="article"
+  publishedTime={publishedTime}
+  modifiedTime={publishedTime}
+>
   <article class="article-reading">
     <header class="mb-10 pb-8 border-b border-white/[0.08] max-w-[42rem]">
       <a href="/truffe" class="inline-flex items-center gap-1.5 text-sm text-ink-faint hover:text-trust transition-colors mb-6">

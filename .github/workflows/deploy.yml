@@ -31,6 +31,8 @@ jobs:
         with:
           context: .
           push: true
+          build-args: |
+            PUBLIC_CONTACT_EMAIL=${{ secrets.PUBLIC_CONTACT_EMAIL }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

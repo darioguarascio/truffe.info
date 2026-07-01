@@ -1,5 +1,15 @@
 import nodemailer from 'nodemailer';
 import type { Transporter } from 'nodemailer';
+import type { VictimStatsInput } from './victim-stats';
+import {
+  labelForOption,
+  VICTIM_AGE_RANGES,
+  VICTIM_GENDERS,
+  VICTIM_ROLES,
+  CONTACT_CHANNELS,
+  SCAM_TYPES,
+  ITALIAN_REGIONS,
+} from './victim-stats';
 
 let transporter: Transporter | null = null;
 
@@ -65,9 +75,29 @@ export async function notifyAdminNewStory(data: {
   id: number;
   location?: string;
   reporter_email: string;
+  victimStats?: VictimStatsInput;
 }): Promise<void> {
   const admin = getAdminEmail();
   if (!admin) return;
+
+  const stats = data.victimStats;
+  const statsLines: string[] = [];
+  if (stats) {
+    const age = labelForOption(VICTIM_AGE_RANGES, stats.victim_age_range);
+    const gender = labelForOption(VICTIM_GENDERS, stats.victim_gender);
+    const region = labelForOption(ITALIAN_REGIONS, stats.victim_region);
+    const role = labelForOption(VICTIM_ROLES, stats.victim_role);
+    const channel = labelForOption(CONTACT_CHANNELS, stats.contact_channel);
+    const scamType = labelForOption(SCAM_TYPES, stats.scam_type);
+    if (age) statsLines.push(`Fascia d'età: ${age}`);
+    if (gender) statsLines.push(`Sesso: ${gender}`);
+    if (region) statsLines.push(`Regione: ${region}`);
+    if (role) statsLines.push(`Chi ha subito: ${role}`);
+    if (channel) statsLines.push(`Primo contatto: ${channel}`);
+    if (scamType) statsLines.push(`Tipo truffa: ${scamType}`);
+    if (stats.prior_scam_contact === true) statsLines.push('Tentativi precedenti: sì');
+    if (stats.prior_scam_contact === false) statsLines.push('Tentativi precedenti: no');
+  }
 
   await sendMail({
     to: admin,
@@ -78,6 +108,8 @@ export async function notifyAdminNewStory(data: {
       `ID: ${data.id}`,
       `Luogo: ${data.location ?? 'non specificato'}`,
       `Email segnalante: ${data.reporter_email}`,
+      ...(statsLines.length > 0 ? ['', 'Dati statistici (non pubblici):', ...statsLines] : []),
+      '',
       'Stato: in attesa di moderazione',
       '',
       'La segnalazione NON è pubblica finché non viene approvata.',

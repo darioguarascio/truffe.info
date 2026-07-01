@@ -174,6 +174,19 @@ ALTER TABLE reports ADD COLUMN IF NOT EXISTS moderation_notes TEXT;
 ALTER TABLE reports ADD COLUMN IF NOT EXISTS terms_accepted BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE reports ADD COLUMN IF NOT EXISTS guidelines_accepted BOOLEAN NOT NULL DEFAULT FALSE;
 
+-- Victim demographics (private — for aggregate statistics only)
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS victim_age_range TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS victim_gender TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS victim_region TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS victim_role TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS contact_channel TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS scam_type TEXT;
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS prior_scam_contact BOOLEAN;
+
+CREATE INDEX IF NOT EXISTS idx_reports_victim_age_range ON reports (victim_age_range);
+CREATE INDEX IF NOT EXISTS idx_reports_victim_region ON reports (victim_region);
+CREATE INDEX IF NOT EXISTS idx_reports_scam_type ON reports (scam_type);
+
 -- Migrate legacy status values
 UPDATE reports SET status = 'pending' WHERE status = 'in_attesa';
 UPDATE reports SET status = 'approved' WHERE status = 'approvata';

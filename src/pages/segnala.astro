@@ -2,6 +2,14 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import LegalNotice from '../components/LegalNotice.astro';
+import {
+  VICTIM_AGE_RANGES,
+  VICTIM_GENDERS,
+  VICTIM_ROLES,
+  CONTACT_CHANNELS,
+  SCAM_TYPES,
+  ITALIAN_REGIONS,
+} from '../lib/victim-stats';
 ---
 
 <PageLayout title="Segnala una truffa | Truffe.info" description="Modulo di segnalazione truffe. Racconta la tua esperienza e contribuisci all'archivio collettivo.">
@@ -33,11 +41,11 @@ import LegalNotice from '../components/LegalNotice.astro';
     <!-- Progress bar -->
     <div class="mb-8">
       <div class="flex justify-between text-xs text-ink-faint mb-2">
-        <span id="step-label">Passo 1 di 5</span>
+        <span id="step-label">Passo 1 di 6</span>
         <span id="step-name">Informazioni base</span>
       </div>
       <div class="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
-        <div id="progress-bar" class="h-full bg-gradient-to-r from-trust to-trust-dark transition-all duration-300 rounded-full" style="width: 20%"></div>
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-trust to-trust-dark transition-all duration-300 rounded-full" style="width: 16.67%"></div>
       </div>
     </div>
 
@@ -89,8 +97,96 @@ import LegalNotice from '../components/LegalNotice.astro';
         </div>
       </div>
 
-      <!-- Step 2: Timeline -->
+      <!-- Step 2: Victim demographics (optional, for statistics) -->
       <div class="form-step hidden" data-step="2">
+        <h2 class="font-display text-xl text-ink mb-2">Chi ha subito la truffa</h2>
+        <p class="text-sm text-ink-muted mb-4">
+          Questi dati sono <strong class="text-ink">facoltativi</strong> e servono solo per statistiche aggregate.
+          Non verranno pubblicati nella storia e non identificano la persona che ha subito la truffa.
+        </p>
+
+        <div class="space-y-5">
+          <div>
+            <label class="form-label" for="victim_role">Chi ha subito la truffa?</label>
+            <select id="victim_role" name="victim_role" class="form-input">
+              <option value="">— Seleziona —</option>
+              {VICTIM_ROLES.map((o) => (
+                <option value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label" for="victim_age_range">Fascia d'età</label>
+            <select id="victim_age_range" name="victim_age_range" class="form-input">
+              <option value="">— Seleziona —</option>
+              {VICTIM_AGE_RANGES.map((o) => (
+                <option value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <p class="form-label">Sesso</p>
+            <div class="flex flex-wrap gap-4 mt-2">
+              {VICTIM_GENDERS.map((o) => (
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="victim_gender" value={o.value} class="accent-trust" />
+                  <span class="text-sm">{o.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label" for="victim_region">Regione di residenza</label>
+            <select id="victim_region" name="victim_region" class="form-input">
+              <option value="">— Seleziona —</option>
+              {ITALIAN_REGIONS.map((o) => (
+                <option value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label" for="contact_channel">Come è avvenuto il primo contatto?</label>
+            <select id="contact_channel" name="contact_channel" class="form-input">
+              <option value="">— Seleziona —</option>
+              {CONTACT_CHANNELS.map((o) => (
+                <option value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label" for="scam_type">Tipo di truffa</label>
+            <select id="scam_type" name="scam_type" class="form-input">
+              <option value="">— Seleziona —</option>
+              {SCAM_TYPES.map((o) => (
+                <option value={o.value}>{o.label}</option>
+              ))}
+            </select>
+            <p class="form-hint">Aiuta a classificare la segnalazione per le statistiche del sito</p>
+          </div>
+
+          <div>
+            <p class="form-label">Hai già ricevuto altri tentativi di truffa in passato?</p>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="prior_scam_contact" value="si" class="accent-trust" />
+                <span class="text-sm">Sì</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="prior_scam_contact" value="no" class="accent-trust" />
+                <span class="text-sm">No</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Timeline -->
+      <div class="form-step hidden" data-step="3">
         <h2 class="font-display text-xl text-ink mb-2">Descrizione della truffa</h2>
         <p class="text-sm text-ink-muted mb-4">
           Descrivi gli avvenimenti in ordine cronologico. Usa la prima persona:
@@ -124,8 +220,8 @@ import LegalNotice from '../components/LegalNotice.astro';
         </button>
       </div>
 
-      <!-- Step 3: Files -->
-      <div class="form-step hidden" data-step="3">
+      <!-- Step 4: Files -->
+      <div class="form-step hidden" data-step="4">
         <h2 class="font-display text-xl text-ink mb-2">Documentazione e file</h2>
         <p class="text-sm text-ink-muted mb-6">
           Se disponi di materiale multimediale (audio, video, foto, ecc.), caricalo qui.
@@ -147,8 +243,8 @@ import LegalNotice from '../components/LegalNotice.astro';
         <ul id="file-list" class="mt-4 space-y-2"></ul>
       </div>
 
-      <!-- Step 4: Scammer -->
-      <div class="form-step hidden" data-step="4">
+      <!-- Step 5: Scammer -->
+      <div class="form-step hidden" data-step="5">
         <h2 class="font-display text-xl text-ink mb-6 pb-3 border-b border-white/[0.06]">Identificazione truffatore</h2>
 
         <div class="space-y-5">
@@ -202,8 +298,8 @@ import LegalNotice from '../components/LegalNotice.astro';
         </div>
       </div>
 
-      <!-- Step 5: Personal + Declaration -->
-      <div class="form-step hidden" data-step="5">
+      <!-- Step 6: Personal + Declaration -->
+      <div class="form-step hidden" data-step="6">
         <h2 class="font-display text-xl text-ink mb-6 pb-3 border-b border-white/[0.06]">I tuoi dati</h2>
 
         <div class="space-y-5">
@@ -290,6 +386,7 @@ import LegalNotice from '../components/LegalNotice.astro';
 <script>
   const STEPS = [
     { name: 'Informazioni base' },
+    { name: 'Chi ha subito' },
     { name: 'Descrizione' },
     { name: 'Documentazione' },
     { name: 'Truffatore' },
@@ -328,7 +425,7 @@ import LegalNotice from '../components/LegalNotice.astro';
   }
 
   function validateStep(step) {
-    if (step === 5) {
+    if (step === 6) {
       const firstName = document.getElementById('reporter_first_name').value.trim();
       const lastName = document.getElementById('reporter_last_name').value.trim();
       const email = document.getElementById('reporter_email').value.trim();
@@ -426,7 +523,7 @@ import LegalNotice from '../components/LegalNotice.astro';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!validateStep(5)) return;
+    if (!validateStep(6)) return;
 
     btnSubmit.setAttribute('disabled', 'true');
     btnSubmit.textContent = 'Invio in corso...';
@@ -437,8 +534,14 @@ import LegalNotice from '../components/LegalNotice.astro';
     fd.append('amount', document.getElementById('amount').value);
     fd.append('money_taken', String(getRadio('money_taken') ?? ''));
     fd.append('reported_to_police', String(getRadio('reported_to_police') ?? ''));
+    fd.append('victim_role', document.getElementById('victim_role').value);
+    fd.append('victim_age_range', document.getElementById('victim_age_range').value);
+    fd.append('victim_gender', form.querySelector('input[name="victim_gender"]:checked')?.value ?? '');
+    fd.append('victim_region', document.getElementById('victim_region').value);
+    fd.append('contact_channel', document.getElementById('contact_channel').value);
+    fd.append('scam_type', document.getElementById('scam_type').value);
+    fd.append('prior_scam_contact', String(getRadio('prior_scam_contact') ?? ''));
     fd.append('events', JSON.stringify(collectEvents()));
-    fd.append('scammer_codename', document.getElementById('scammer_codename').value);
     fd.append('scammer_gender', form.querySelector('input[name="scammer_gender"]:checked')?.value ?? '');
     fd.append('scammer_nationality', document.getElementById('scammer_nationality').value);
     fd.append('scammer_name', document.getElementById('scammer_name').value);

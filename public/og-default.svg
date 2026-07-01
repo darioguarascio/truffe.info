@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Truffe.info">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060810"/>
+      <stop offset="50%" stop-color="#0c1020"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="30%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g opacity="0.08" stroke="#ffffff" stroke-width="1">
+    <path d="M0 80H1200M0 160H1200M0 240H1200M0 320H1200M0 400H1200M0 480H1200M0 560H1200"/>
+    <path d="M80 0V630M160 0V630M240 0V630M320 0V630M400 0V630M480 0V630M560 0V630M640 0V630M720 0V630M800 0V630M880 0V630M960 0V630M1040 0V630M1120 0V630"/>
+  </g>
+  <circle cx="980" cy="120" r="180" fill="#ff5c5c" opacity="0.08"/>
+  <circle cx="180" cy="520" r="140" fill="#2dd4bf" opacity="0.1"/>
+  <rect x="80" y="200" width="8" height="230" rx="4" fill="url(#accent)"/>
+  <text x="110" y="270" fill="#f4f6fb" font-family="system-ui, sans-serif" font-size="72" font-weight="800">Truffe<tspan fill="#ff5c5c">.</tspan>info</text>
+  <text x="110" y="340" fill="#b4c0d4" font-family="system-ui, sans-serif" font-size="34" font-weight="500">Informazione e segnalazione truffe in Italia</text>
+  <text x="110" y="410" fill="#7a8aa4" font-family="system-ui, sans-serif" font-size="24">Guide · Storie della community · Modulo segnalazioni</text>
+</svg>

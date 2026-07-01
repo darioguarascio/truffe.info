@@ -6,12 +6,18 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const props = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout {...props}>
   <Header slot="header" />
   <slot />
   <Footer slot="footer" />

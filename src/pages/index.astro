@@ -6,6 +6,8 @@ import { getCollection } from 'astro:content';
 import { getApprovedExperiences } from '../lib/db';
 import { experienceTitle, experienceExcerpt, experienceDate } from '../lib/experiences';
 import { formatDateIT } from '../lib/dates';
+import { DEFAULT_TITLE, DEFAULT_DESCRIPTION } from '../lib/site';
+import ContactSection from '../components/ContactSection.astro';
 
 const allArticles = await getCollection('truffe');
 const articles = allArticles
@@ -14,7 +16,7 @@ const articles = allArticles
 const experiences = (await getApprovedExperiences()).slice(0, 3);
 ---
 
-<PageLayout>
+<PageLayout title={DEFAULT_TITLE} description={DEFAULT_DESCRIPTION}>
   <!-- Hero -->
   <section class="relative overflow-hidden border-b border-white/[0.06]">
     <div class="absolute inset-0 site-grid opacity-30 pointer-events-none"></div>
@@ -187,6 +189,10 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
     )}
 
     <a href="/storie" class="sm:hidden btn-secondary w-full mt-6 text-center">Vedi tutte le storie</a>
+  </section>
+
+  <section class="page-container py-16 md:py-20 border-t border-white/[0.06]">
+    <ContactSection compact />
   </section>
 
   <!-- CTA -->

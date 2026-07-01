@@ -1,4 +1,11 @@
 import pg from 'pg';
+import type {
+  VictimAgeRange,
+  VictimGender,
+  VictimRole,
+  ContactChannel,
+  ScamType,
+} from './victim-stats';
 import { parseEvents, parseAttachments, formatAuthorLabel, type PublicExperience } from './experiences';
 
 const { Pool } = pg;
@@ -48,6 +55,13 @@ export interface ReportInput {
   reporter_first_name: string;
   reporter_last_name: string;
   reporter_email: string;
+  victim_age_range?: VictimAgeRange;
+  victim_gender?: VictimGender;
+  victim_region?: string;
+  victim_role?: VictimRole;
+  contact_channel?: ContactChannel;
+  scam_type?: ScamType;
+  prior_scam_contact?: boolean;
   declaration_accepted: boolean;
   terms_accepted: boolean;
   guidelines_accepted: boolean;
@@ -74,13 +88,16 @@ export async function insertReport(data: ReportInput): Promise<number> {
       scammer_codename, scammer_gender, scammer_nationality,
       scammer_name, scammer_phone, scammer_characteristics,
       reporter_first_name, reporter_last_name, reporter_email,
+      victim_age_range, victim_gender, victim_region, victim_role,
+      contact_channel, scam_type, prior_scam_contact,
       declaration_accepted, terms_accepted, guidelines_accepted,
       status,
       ip_address, user_agent, referer, accept_language, forwarded_for
     ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18,
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,
+      $16, $17, $18, $19, $20, $21, $22, $23, $24, $25,
       'pending',
-      $19, $20, $21, $22, $23
+      $26, $27, $28, $29, $30
     ) RETURNING id`,
     [
       data.location ?? null,
@@ -98,6 +115,13 @@ export async function insertReport(data: ReportInput): Promise<number> {
       data.reporter_first_name,
       data.reporter_last_name,
       data.reporter_email,
+      data.victim_age_range ?? null,
+      data.victim_gender ?? null,
+      data.victim_region ?? null,
+      data.victim_role ?? null,
+      data.contact_channel ?? null,
+      data.scam_type ?? null,
+      data.prior_scam_contact ?? null,
       data.declaration_accepted,
       data.terms_accepted,
       data.guidelines_accepted,

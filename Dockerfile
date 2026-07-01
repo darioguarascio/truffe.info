@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 COPY . .
+ARG PUBLIC_CONTACT_EMAIL=ciao@truffe.info
+ENV PUBLIC_CONTACT_EMAIL=$PUBLIC_CONTACT_EMAIL
 RUN npm run build
 
 FROM node:22-alpine AS runner

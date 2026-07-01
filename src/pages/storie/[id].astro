@@ -16,10 +16,18 @@ const story = await getApprovedExperienceById(numericId);
 if (!story) return Astro.redirect('/404');
 
 const title = `${experienceTitle(story)} | Truffe.info`;
+const description = story.events[0]?.description?.slice(0, 155) ?? 'Resoconto di truffa moderato su Truffe.info';
 const published = experienceDate(story);
+const publishedTime = published.toISOString();
 ---
 
-<PageLayout title={title} description={story.events[0]?.description?.slice(0, 155) ?? 'Resoconto di truffa moderato su Truffe.info'}>
+<PageLayout
+  title={title}
+  description={description}
+  type="article"
+  publishedTime={publishedTime}
+  imageAlt={experienceTitle(story)}
+>
   <article class="article-reading article-reading--story">
     <header class="mb-8 pb-8 border-b border-white/[0.12] max-w-[42rem]">
       <a href="/storie" class="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-trust transition-colors mb-6">

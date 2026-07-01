@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { insertReport } from '../../lib/db';
 import { saveUploadedFile, getRequestMeta } from '../../lib/upload';
+import { parseVictimStats } from '../../lib/victim-stats';
 import {
   notifyAdminNewStory,
   notifyUserSubmissionReceived,
@@ -67,6 +68,15 @@ export const POST: APIRoute = async ({ request }) => {
     const genderRaw = String(formData.get('scammer_gender') ?? '');
     const amountStr = String(formData.get('amount') ?? '');
     const meta = getRequestMeta(request);
+    const victimStats = parseVictimStats({
+      victim_age_range: String(formData.get('victim_age_range') ?? ''),
+      victim_gender: String(formData.get('victim_gender') ?? ''),
+      victim_region: String(formData.get('victim_region') ?? ''),
+      victim_role: String(formData.get('victim_role') ?? ''),
+      contact_channel: String(formData.get('contact_channel') ?? ''),
+      scam_type: String(formData.get('scam_type') ?? ''),
+      prior_scam_contact: String(formData.get('prior_scam_contact') ?? ''),
+    });
 
     const id = await insertReport({
       location: String(formData.get('location') ?? '').trim() || undefined,
@@ -84,6 +94,7 @@ export const POST: APIRoute = async ({ request }) => {
       reporter_first_name,
       reporter_last_name,
       reporter_email,
+      ...victimStats,
       declaration_accepted: true,
       terms_accepted: true,
       guidelines_accepted: true,
@@ -95,6 +106,7 @@ export const POST: APIRoute = async ({ request }) => {
         id,
         location: String(formData.get('location') ?? '').trim() || undefined,
         reporter_email,
+        victimStats,
       }),
       notifyUserSubmissionReceived({ id, email: reporter_email }),
     ]);
