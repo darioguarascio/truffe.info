@@ -5,6 +5,7 @@ import LegalNotice from '../../components/LegalNotice.astro';
 import StoryAttachments from '../../components/StoryAttachments.astro';
 import StoryBody from '../../components/StoryBody.astro';
 import { getApprovedExperienceById } from '../../lib/db';
+import { formatDateIT } from '../../lib/dates';
 import { experienceTitle, experienceDate } from '../../lib/experiences';
 
 const { id } = Astro.params;
@@ -19,57 +20,61 @@ const published = experienceDate(story);
 ---
 
 <PageLayout title={title} description={story.events[0]?.description?.slice(0, 155) ?? 'Resoconto di truffa moderato su Truffe.info'}>
-  <article class="article-reading">
-    <header class="mb-8 pb-8 border-b border-white/[0.08] max-w-[42rem]">
-      <a href="/storie" class="inline-flex items-center gap-1.5 text-sm text-ink-faint hover:text-trust transition-colors mb-6">
+  <article class="article-reading article-reading--story">
+    <header class="mb-8 pb-8 border-b border-white/[0.12] max-w-[42rem]">
+      <a href="/storie" class="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-trust transition-colors mb-6">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
         Tutte le storie
       </a>
 
       <p class="section-label mb-4">Resoconto segnalato</p>
-      <h1 class="font-display text-3xl md:text-[2.5rem] font-bold text-ink tracking-tight leading-[1.2] mb-5">
+      <h1 class="font-display text-3xl md:text-[2.5rem] font-bold text-ink tracking-tight leading-[1.2] mb-4">
         {experienceTitle(story)}
       </h1>
 
+      <p class="story-byline mb-5">
+        Segnalato da <strong>{story.author_label}</strong>
+      </p>
+
       {(story.location || story.money_taken != null || story.reported_to_police || (story.amount != null && story.amount > 0)) && (
-        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5 reading-panel !py-4 !px-5">
+        <dl class="story-facts grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5 reading-panel reading-panel--story !py-4 !px-5">
           {story.location && (
             <div>
-              <dt class="text-xs font-mono text-ink-faint uppercase tracking-wide mb-0.5">Luogo</dt>
-              <dd class="text-sm text-ink-body break-words">{story.location}</dd>
+              <dt>Luogo</dt>
+              <dd class="break-words">{story.location}</dd>
             </div>
           )}
           {story.amount != null && story.amount > 0 && (
             <div>
-              <dt class="text-xs font-mono text-ink-faint uppercase tracking-wide mb-0.5">Importo</dt>
-              <dd class="text-sm text-ink font-semibold">
+              <dt>Importo</dt>
+              <dd class="font-semibold">
                 {story.amount.toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}
               </dd>
             </div>
           )}
           {story.money_taken === true && (
             <div>
-              <dt class="text-xs font-mono text-ink-faint uppercase tracking-wide mb-0.5">Esito</dt>
-              <dd class="text-sm text-alert">Denaro sottratto</dd>
+              <dt>Esito</dt>
+              <dd class="text-alert">Denaro sottratto</dd>
             </div>
           )}
           {story.money_taken === false && (
             <div>
-              <dt class="text-xs font-mono text-ink-faint uppercase tracking-wide mb-0.5">Esito</dt>
-              <dd class="text-sm text-trust">Tentativo non riuscito</dd>
+              <dt>Esito</dt>
+              <dd class="text-trust">Tentativo non riuscito</dd>
             </div>
           )}
           {story.reported_to_police === true && (
             <div>
-              <dt class="text-xs font-mono text-ink-faint uppercase tracking-wide mb-0.5">Autorità</dt>
-              <dd class="text-sm text-ink-body">Denuncia presentata</dd>
+              <dt>Autorità</dt>
+              <dd>Denuncia presentata</dd>
             </div>
           )}
         </dl>
       )}
 
-      <time datetime={published.toISOString()} class="text-sm font-mono text-ink-faint">
-        Pubblicato il {published.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+      <time datetime={published.toISOString()} class="text-sm text-ink-muted">
+        Pubblicato il {formatDateIT(published)}
       </time>
     </header>
 
@@ -77,17 +82,17 @@ const published = experienceDate(story);
 
     <StoryAttachments attachments={story.attachments} />
 
-    <p class="mt-10 text-sm text-ink-faint leading-relaxed max-w-[42rem]">
+    <p class="mt-10 text-sm text-ink-muted leading-relaxed max-w-[42rem]">
       Questo resoconto descrive quanto raccontato da chi ha segnalato. Truffe.info non verifica
       autonomamente ogni affermazione; il contenuto è moderato prima della pubblicazione.
     </p>
 
-    <footer class="mt-14 pt-8 border-t border-white/[0.08] max-w-[42rem]">
+    <footer class="mt-14 pt-8 border-t border-white/[0.12] max-w-[42rem]">
       <LegalNotice compact />
 
       <div class="callout-warn mb-8 mt-6">
         <h2 class="font-display text-lg font-semibold text-ink mb-2">Ti è successo qualcosa di simile?</h2>
-        <p class="text-sm text-ink-body mb-4">
+        <p class="text-sm text-ink mb-4">
           Racconta cosa ti è capitato e aiuta altri a riconoscere schemi simili.
         </p>
         <a href="/segnala" class="btn-primary text-sm">Segnala una truffa</a>

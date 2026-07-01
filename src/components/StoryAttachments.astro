@@ -9,6 +9,7 @@ const { attachments } = Astro.props;
 
 const images = attachments.filter((a) => a.mimeType?.startsWith('image/'));
 const files = attachments.filter((a) => !a.mimeType?.startsWith('image/'));
+const carouselId = `gallery-${images[0]?.filename ?? 'empty'}`;
 
 function uploadUrl(filename: string) {
   return `/api/uploads/${filename}`;
@@ -16,26 +17,56 @@ function uploadUrl(filename: string) {
 ---
 
 {(images.length > 0 || files.length > 0) && (
-  <section class="mt-10 pt-8 border-t border-white/[0.08] max-w-[42rem]" aria-label="Allegati">
+  <section class="mt-10 pt-8 border-t border-white/[0.12] max-w-[42rem]" aria-label="Allegati">
     <h2 class="font-display text-xl font-semibold text-ink mb-5">Documentazione allegata</h2>
 
     {images.length > 0 && (
-      <div class:list={['grid gap-4', images.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2']}>
-        {images.map((file) => (
-          <figure class="glass-card overflow-hidden">
-            <a href={uploadUrl(file.filename)} target="_blank" rel="noopener" class="block">
-              <img
-                src={uploadUrl(file.filename)}
-                alt={file.originalName}
-                loading="lazy"
-                class="w-full h-auto max-h-[480px] object-contain bg-black/20"
-              />
-            </a>
-            <figcaption class="px-3 py-2 text-xs font-mono text-ink-faint border-t border-white/[0.06]">
-              {file.originalName}
-            </figcaption>
-          </figure>
-        ))}
+      <div class="image-carousel reading-panel reading-panel--media" data-carousel={carouselId} tabindex="0">
+        <div class="image-carousel-viewport">
+          {images.map((file, index) => (
+            <figure
+              class="image-carousel-slide"
+              data-slide={index}
+              hidden={index !== 0}
+            >
+              <a href={uploadUrl(file.filename)} target="_blank" rel="noopener" class="block">
+                <img
+                  src={uploadUrl(file.filename)}
+                  alt={file.originalName}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  class="image-carousel-img"
+                />
+              </a>
+              <figcaption class="image-carousel-caption">{file.originalName}</figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {images.length > 1 && (
+          <div class="image-carousel-controls">
+            <button
+              type="button"
+              class="image-carousel-btn"
+              data-carousel-prev
+              aria-label="Immagine precedente"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <span class="image-carousel-counter" data-carousel-counter>1 / {images.length}</span>
+            <button
+              type="button"
+              class="image-carousel-btn"
+              data-carousel-next
+              aria-label="Immagine successiva"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     )}
 
@@ -60,3 +91,39 @@ function uploadUrl(filename: string) {
     )}
   </section>
 )}
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll('[data-carousel]').forEach((root) => {
+      if (root.getAttribute('data-carousel-init') === 'true') return;
+      root.setAttribute('data-carousel-init', 'true');
+
+      const slides = Array.from(root.querySelectorAll('[data-slide]'));
+      if (slides.length <= 1) return;
+
+      const counter = root.querySelector('[data-carousel-counter]');
+      const prevBtn = root.querySelector('[data-carousel-prev]');
+      const nextBtn = root.querySelector('[data-carousel-next]');
+      let index = 0;
+
+      const show = (next: number) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.toggleAttribute('hidden', i !== index);
+        });
+        if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+      };
+
+      prevBtn?.addEventListener('click', () => show(index - 1));
+      nextBtn?.addEventListener('click', () => show(index + 1));
+
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') show(index - 1);
+        if (e.key === 'ArrowRight') show(index + 1);
+      });
+    });
+  }
+
+  initCarousels();
+  document.addEventListener('astro:page-load', initCarousels);
+</script>

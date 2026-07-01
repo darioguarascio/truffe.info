@@ -5,6 +5,7 @@ import LegalNotice from '../components/LegalNotice.astro';
 import { getCollection } from 'astro:content';
 import { getApprovedExperiences } from '../lib/db';
 import { experienceTitle, experienceExcerpt, experienceDate } from '../lib/experiences';
+import { formatDateIT } from '../lib/dates';
 
 const allArticles = await getCollection('truffe');
 const articles = allArticles
@@ -133,8 +134,8 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
                 {article.data.title}
               </h3>
               <p class="text-sm text-ink-muted line-clamp-3 flex-1">{article.data.description}</p>
-              <time datetime={article.data.date.toISOString()} class="block text-xs font-mono text-ink-faint mt-5 pt-4 border-t border-white/[0.06]">
-                {article.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+              <time datetime={article.data.date.toISOString()} class="block text-xs text-ink-muted mt-5 pt-4 border-t border-white/[0.1]">
+                {formatDateIT(article.data.date)}
               </time>
             </div>
           </a>
@@ -171,12 +172,13 @@ const experiences = (await getApprovedExperiences()).slice(0, 3);
             <div class="h-1 bg-gradient-to-r from-alert/60 via-accent/50 to-trust/80"></div>
             <div class="p-6 flex flex-col flex-1">
               {exp.location && <span class="tag mb-4 w-fit">{exp.location}</span>}
+              <p class="text-xs text-ink-muted mb-2">Segnalato da {exp.author_label}</p>
               <h3 class="font-display text-xl font-semibold text-ink group-hover:text-trust transition-colors mb-2 line-clamp-2">
                 {experienceTitle(exp)}
               </h3>
               <p class="text-sm text-ink-muted line-clamp-3 flex-1">{experienceExcerpt(exp)}</p>
-              <time datetime={experienceDate(exp).toISOString()} class="block text-xs font-mono text-ink-faint mt-5 pt-4 border-t border-white/[0.06]">
-                {experienceDate(exp).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+              <time datetime={experienceDate(exp).toISOString()} class="block text-xs text-ink-muted mt-5 pt-4 border-t border-white/[0.1]">
+                {formatDateIT(experienceDate(exp))}
               </time>
             </div>
           </a>

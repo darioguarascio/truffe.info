@@ -4,6 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import LegalNotice from '../../components/LegalNotice.astro';
 import { getApprovedExperiences } from '../../lib/db';
 import { experienceTitle, experienceExcerpt, experienceDate } from '../../lib/experiences';
+import { formatDateIT } from '../../lib/dates';
 
 const stories = await getApprovedExperiences();
 ---
@@ -23,7 +24,8 @@ const stories = await getApprovedExperiences();
 
     <div class="callout-info mb-10 mt-6 max-w-3xl">
       <p class="text-sm text-ink-muted">
-        I nomi degli autori e dei presunti truffatori non vengono pubblicati.
+        I presunti truffatori non vengono identificati pubblicamente.
+        Ogni storia mostra un riferimento semi-anonimo a chi segnala (nome e iniziale del cognome).
         I contenuti descrivono tecniche e fatti accaduti, non costituiscono accuse pubbliche identificabili.
         Ogni storia rispetta le <a href="/linee-guida" class="text-trust hover:underline">linee guida</a>.
       </p>
@@ -53,15 +55,16 @@ const stories = await getApprovedExperiences();
                 {story.location && (
                   <span class="tag mb-4 w-fit">{story.location}</span>
                 )}
+                <p class="text-xs text-ink-muted mb-3">Segnalato da {story.author_label}</p>
                 <h2 class="font-display text-xl font-semibold text-ink group-hover:text-trust transition-colors mb-2 line-clamp-2">
                   {experienceTitle(story)}
                 </h2>
                 <p class="text-sm text-ink-muted flex-1 leading-relaxed line-clamp-3">
                   {experienceExcerpt(story)}
                 </p>
-                <div class="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-white/[0.06] text-xs font-mono text-ink-faint">
+                <div class="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-white/[0.1] text-xs text-ink-muted">
                   <time datetime={experienceDate(story).toISOString()}>
-                    {experienceDate(story).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    {formatDateIT(experienceDate(story))}
                   </time>
                   {story.money_taken === true && <span class="text-alert">Denaro sottratto</span>}
                   {story.money_taken === false && <span class="text-trust">Tentativo bloccato</span>}

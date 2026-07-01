@@ -63,7 +63,15 @@
 
   /* Long-form reading: articles, stories, legal pages */
   .reading-panel {
-    @apply bg-paper-card/50 border border-white/[0.06] rounded-2xl px-5 py-6 sm:px-8 sm:py-8;
+    @apply bg-paper-reading border border-white/[0.18] rounded-2xl px-5 py-6 sm:px-8 sm:py-8;
+  }
+
+  .reading-panel--story {
+    @apply bg-paper-reading shadow-[inset_0_1px_0_rgba(255,255,255,0.08)];
+  }
+
+  .reading-panel--media {
+    @apply p-4 sm:p-5;
   }
 
   .prose-truffe {
@@ -159,7 +167,7 @@
   }
 
   .prose-truffe td {
-    @apply px-4 py-3 border-b border-white/[0.06] text-ink-body align-top;
+    @apply px-4 py-3 border-b border-white/[0.08] text-ink align-top;
   }
 
   .prose-truffe tbody tr:last-child td {
@@ -183,12 +191,67 @@
     @apply max-w-[42rem];
   }
 
+  .story-empty {
+    @apply text-ink;
+  }
+
   .story-meta {
-    @apply font-mono text-xs text-trust mb-4 tracking-wide;
+    @apply text-sm text-ink-muted mb-4;
   }
 
   .story-paragraphs p {
     @apply text-[1.0625rem] md:text-lg leading-[1.85] text-ink-body mb-5 last:mb-0;
+  }
+
+  .story-byline {
+    @apply inline-flex items-center gap-2 text-sm text-ink-muted;
+  }
+
+  .story-byline strong {
+    @apply text-ink font-medium;
+  }
+
+  .story-facts dt {
+    @apply text-xs font-mono text-ink-muted uppercase tracking-wide mb-0.5;
+  }
+
+  .story-facts dd {
+    @apply text-sm text-ink;
+  }
+
+  /* Image carousel */
+  .image-carousel {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-trust/50 rounded-2xl;
+  }
+
+  .image-carousel-viewport {
+    @apply relative overflow-hidden rounded-xl bg-black/30;
+  }
+
+  .image-carousel-slide[hidden] {
+    display: none;
+  }
+
+  .image-carousel-img {
+    @apply w-full h-auto max-h-[520px] object-contain mx-auto;
+  }
+
+  .image-carousel-caption {
+    @apply px-3 py-2 text-xs font-mono text-ink-muted border-t border-white/[0.1] text-center;
+  }
+
+  .image-carousel-controls {
+    @apply flex items-center justify-center gap-4 mt-4;
+  }
+
+  .image-carousel-btn {
+    @apply w-10 h-10 rounded-xl border border-white/[0.14] bg-paper-elevated text-ink
+           flex items-center justify-center hover:bg-white/[0.08] hover:border-trust/40
+           transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-trust;
+  }
+
+  .image-carousel-counter {
+    @apply font-mono text-sm text-ink-muted min-w-[4rem] text-center;
   }
 
   .story-timeline {

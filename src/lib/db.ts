@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { parseEvents, parseAttachments, type PublicExperience } from './experiences';
+import { parseEvents, parseAttachments, formatAuthorLabel, type PublicExperience } from './experiences';
 
 const { Pool } = pg;
 
@@ -210,7 +210,8 @@ export async function getApprovedExperiences(limit = 50): Promise<PublicExperien
   try {
     const db = getPool();
     const result = await db.query(
-      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events, attachments
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police,
+              events, attachments, reporter_first_name, reporter_last_name
        FROM reports
        WHERE status = 'approved'
        ORDER BY moderated_at DESC NULLS LAST, created_at DESC
@@ -227,6 +228,7 @@ export async function getApprovedExperiences(limit = 50): Promise<PublicExperien
       reported_to_police: row.reported_to_police,
       events: parseEvents(row.events),
       attachments: parseAttachments(row.attachments),
+      author_label: formatAuthorLabel(row.reporter_first_name, row.reporter_last_name),
     }));
   } catch {
     return [];
@@ -259,7 +261,8 @@ export async function getApprovedExperienceById(id: number): Promise<PublicExper
   try {
     const db = getPool();
     const result = await db.query(
-      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events, attachments
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police,
+              events, attachments, reporter_first_name, reporter_last_name
        FROM reports
        WHERE id = $1 AND status = 'approved'`,
       [id]
@@ -276,6 +279,7 @@ export async function getApprovedExperienceById(id: number): Promise<PublicExper
       reported_to_police: row.reported_to_police,
       events: parseEvents(row.events),
       attachments: parseAttachments(row.attachments),
+      author_label: formatAuthorLabel(row.reporter_first_name, row.reporter_last_name),
     };
   } catch {
     return null;

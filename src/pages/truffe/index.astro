@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import LegalNotice from '../../components/LegalNotice.astro';
 import { getCollection } from 'astro:content';
+import { formatDateIT } from '../../lib/dates';
 
 const articles = (await getCollection('truffe'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -61,7 +62,7 @@ const otherArticles = articles.filter((a) => a.id.replace(/\.md$/, '') !== legal
             <p class="text-sm text-ink-muted flex-1 leading-relaxed">{article.data.description}</p>
             <div class="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.06]">
               <time datetime={article.data.date.toISOString()} class="text-xs font-mono text-ink-faint">
-                {article.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+                {formatDateIT(article.data.date)}
               </time>
               <span class="text-sm text-trust font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                 Leggi

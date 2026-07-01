@@ -5,16 +5,17 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#eef1f8',
-          body: '#c5cdd9',
-          muted: '#949db5',
-          faint: '#5e6778',
+          DEFAULT: '#f4f6fb',
+          body: '#e4eaf4',
+          muted: '#b4c0d4',
+          faint: '#7a8aa4',
         },
         paper: {
           DEFAULT: '#060810',
           warm: '#0c1020',
           card: '#111827',
-          elevated: '#161f33',
+          elevated: '#1a2438',
+          reading: '#283550',
         },
         alert: {
           DEFAULT: '#ff5c5c',

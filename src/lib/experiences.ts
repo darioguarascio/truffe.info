@@ -10,6 +10,7 @@ export interface PublicExperience {
   reported_to_police: boolean | null;
   events: TimelineEvent[];
   attachments: FileAttachment[];
+  author_label: string;
 }
 
 export function parseEvents(raw: unknown): TimelineEvent[] {
@@ -56,4 +57,16 @@ export function experienceExcerpt(exp: PublicExperience): string {
 
 export function experienceDate(exp: PublicExperience): Date {
   return exp.moderated_at ?? exp.created_at;
+}
+
+/** Semi-anonymous byline, e.g. "Kevin A." */
+export function formatAuthorLabel(
+  firstName?: string | null,
+  lastName?: string | null
+): string {
+  const first = firstName?.trim();
+  const last = lastName?.trim();
+  if (!first) return 'Segnalatore anonimo';
+  if (!last) return first;
+  return `${first} ${last.charAt(0).toUpperCase()}.`;
 }
