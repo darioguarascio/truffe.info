@@ -1,0 +1,62 @@
+---
+import type { FileAttachment } from '../lib/db';
+
+interface Props {
+  attachments: FileAttachment[];
+}
+
+const { attachments } = Astro.props;
+
+const images = attachments.filter((a) => a.mimeType?.startsWith('image/'));
+const files = attachments.filter((a) => !a.mimeType?.startsWith('image/'));
+
+function uploadUrl(filename: string) {
+  return `/api/uploads/${filename}`;
+}
+---
+
+{(images.length > 0 || files.length > 0) && (
+  <section class="mt-10 pt-8 border-t border-white/[0.08]" aria-label="Allegati">
+    <h2 class="font-display text-lg font-semibold text-ink mb-4">Documentazione allegata</h2>
+
+    {images.length > 0 && (
+      <div class:list={['grid gap-4', images.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2']}>
+        {images.map((file) => (
+          <figure class="glass-card overflow-hidden">
+            <a href={uploadUrl(file.filename)} target="_blank" rel="noopener" class="block">
+              <img
+                src={uploadUrl(file.filename)}
+                alt={file.originalName}
+                loading="lazy"
+                class="w-full h-auto max-h-[480px] object-contain bg-black/20"
+              />
+            </a>
+            <figcaption class="px-3 py-2 text-xs font-mono text-ink-faint border-t border-white/[0.06]">
+              {file.originalName}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {files.length > 0 && (
+      <ul class:list={['space-y-2', images.length > 0 && 'mt-4']}>
+        {files.map((file) => (
+          <li>
+            <a
+              href={uploadUrl(file.filename)}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 text-sm text-trust hover:underline"
+            >
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              </svg>
+              {file.originalName}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+)}

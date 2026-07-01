@@ -1,4 +1,4 @@
-import type { TimelineEvent } from './db';
+import type { TimelineEvent, FileAttachment } from './db';
 
 export interface PublicExperience {
   id: number;
@@ -9,6 +9,7 @@ export interface PublicExperience {
   money_taken: boolean | null;
   reported_to_police: boolean | null;
   events: TimelineEvent[];
+  attachments: FileAttachment[];
 }
 
 export function parseEvents(raw: unknown): TimelineEvent[] {
@@ -16,6 +17,18 @@ export function parseEvents(raw: unknown): TimelineEvent[] {
   if (typeof raw === 'string') {
     try {
       return JSON.parse(raw) as TimelineEvent[];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
+export function parseAttachments(raw: unknown): FileAttachment[] {
+  if (Array.isArray(raw)) return raw as FileAttachment[];
+  if (typeof raw === 'string') {
+    try {
+      return JSON.parse(raw) as FileAttachment[];
     } catch {
       return [];
     }

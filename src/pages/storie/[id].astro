@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import ContentReportLink from '../../components/ContentReportLink.astro';
 import LegalNotice from '../../components/LegalNotice.astro';
+import StoryAttachments from '../../components/StoryAttachments.astro';
 import { getApprovedExperienceById } from '../../lib/db';
 import { experienceTitle, experienceDate } from '../../lib/experiences';
 
@@ -70,6 +71,8 @@ const published = experienceDate(story);
     ) : (
       <p class="text-ink-muted">Nessun dettaglio aggiuntivo disponibile.</p>
     )}
+
+    <StoryAttachments attachments={story.attachments} />
 
     <p class="mt-10 text-xs text-ink-faint italic">
       Questo resoconto descrive quanto raccontato da chi ha segnalato. Truffe.info non verifica

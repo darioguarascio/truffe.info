@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { parseEvents, type PublicExperience } from './experiences';
+import { parseEvents, parseAttachments, type PublicExperience } from './experiences';
 
 const { Pool } = pg;
 
@@ -210,7 +210,7 @@ export async function getApprovedExperiences(limit = 50): Promise<PublicExperien
   try {
     const db = getPool();
     const result = await db.query(
-      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events, attachments
        FROM reports
        WHERE status = 'approved'
        ORDER BY moderated_at DESC NULLS LAST, created_at DESC
@@ -226,9 +226,32 @@ export async function getApprovedExperiences(limit = 50): Promise<PublicExperien
       money_taken: row.money_taken,
       reported_to_police: row.reported_to_police,
       events: parseEvents(row.events),
+      attachments: parseAttachments(row.attachments),
     }));
   } catch {
     return [];
+  }
+}
+
+export async function getApprovedAttachmentMeta(
+  filename: string
+): Promise<{ mimeType: string; originalName: string } | null> {
+  try {
+    const db = getPool();
+    const result = await db.query(
+      `SELECT elem->>'mimeType' AS mime_type, elem->>'originalName' AS original_name
+       FROM reports, jsonb_array_elements(attachments) AS elem
+       WHERE status = 'approved' AND elem->>'filename' = $1
+       LIMIT 1`,
+      [filename]
+    );
+    if (!result.rows[0]) return null;
+    return {
+      mimeType: result.rows[0].mime_type,
+      originalName: result.rows[0].original_name,
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -236,7 +259,7 @@ export async function getApprovedExperienceById(id: number): Promise<PublicExper
   try {
     const db = getPool();
     const result = await db.query(
-      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events
+      `SELECT id, created_at, moderated_at, location, amount, money_taken, reported_to_police, events, attachments
        FROM reports
        WHERE id = $1 AND status = 'approved'`,
       [id]
@@ -252,6 +275,7 @@ export async function getApprovedExperienceById(id: number): Promise<PublicExper
       money_taken: row.money_taken,
       reported_to_police: row.reported_to_police,
       events: parseEvents(row.events),
+      attachments: parseAttachments(row.attachments),
     };
   } catch {
     return null;
