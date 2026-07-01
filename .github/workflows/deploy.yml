@@ -72,8 +72,6 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT || 22 }}
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
-            rm -rf db import-jotform import-jotform.ts import-jotform.mjs import-jotform.js 2>/dev/null || true
-            rm -f init.sql 2>/dev/null || true
             echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" > .env
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
             echo "POSTGRES_DB=${{ secrets.POSTGRES_DB || 'truffe' }}" >> .env
