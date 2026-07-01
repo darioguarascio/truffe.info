@@ -6,6 +6,7 @@ export default {
       colors: {
         ink: {
           DEFAULT: '#eef1f8',
+          body: '#c5cdd9',
           muted: '#949db5',
           faint: '#5e6778',
         },

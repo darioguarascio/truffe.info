@@ -16,8 +16,8 @@ function uploadUrl(filename: string) {
 ---
 
 {(images.length > 0 || files.length > 0) && (
-  <section class="mt-10 pt-8 border-t border-white/[0.08]" aria-label="Allegati">
-    <h2 class="font-display text-lg font-semibold text-ink mb-4">Documentazione allegata</h2>
+  <section class="mt-10 pt-8 border-t border-white/[0.08] max-w-[42rem]" aria-label="Allegati">
+    <h2 class="font-display text-xl font-semibold text-ink mb-5">Documentazione allegata</h2>
 
     {images.length > 0 && (
       <div class:list={['grid gap-4', images.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2']}>

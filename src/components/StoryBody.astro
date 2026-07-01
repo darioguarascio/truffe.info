@@ -1,0 +1,66 @@
+---
+interface Event {
+  date?: string;
+  time?: string;
+  description?: string;
+}
+
+interface Props {
+  events: Event[];
+}
+
+const { events } = Astro.props;
+
+function formatEventDate(date?: string, time?: string): string | null {
+  const parts = [date, time].filter(Boolean);
+  return parts.length > 0 ? parts.join(' · ') : null;
+}
+
+function splitParagraphs(text: string): string[] {
+  const normalized = text.trim();
+  if (!normalized) return [];
+
+  const blocks = normalized.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  if (blocks.length > 1) return blocks;
+
+  return normalized
+    .split(/\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+---
+
+<div class="story-body">
+  {events.length === 0 ? (
+    <p class="text-ink-body">Nessun dettaglio aggiuntivo disponibile.</p>
+  ) : events.length === 1 ? (
+    <div class="reading-panel">
+      {formatEventDate(events[0].date, events[0].time) && (
+        <p class="story-meta">{formatEventDate(events[0].date, events[0].time)}</p>
+      )}
+      <div class="story-paragraphs">
+        {splitParagraphs(events[0].description ?? '').map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <ol class="story-timeline">
+      {events.map((event, i) => (
+        <li class="story-timeline-item">
+          <div class="story-timeline-marker" aria-hidden="true">{i + 1}</div>
+          <div class="reading-panel story-timeline-content">
+            {formatEventDate(event.date, event.time) && (
+              <p class="story-meta">{formatEventDate(event.date, event.time)}</p>
+            )}
+            <div class="story-paragraphs">
+              {splitParagraphs(event.description ?? '').map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  )}
+</div>
