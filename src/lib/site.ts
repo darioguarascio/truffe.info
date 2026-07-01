@@ -10,8 +10,8 @@ export const DEFAULT_OG_IMAGE = '/og-default.svg';
 export const GITHUB_URL = 'https://github.com/darioguarascio/truffe.info';
 export const GITHUB_ISSUES_URL = `${GITHUB_URL}/issues`;
 
-/** Public contact email — override with PUBLIC_CONTACT_EMAIL in env */
-export const CONTACT_EMAIL =
-  (import.meta.env.PUBLIC_CONTACT_EMAIL as string | undefined)?.trim() || 'ciao@truffe.info';
+/** Cloudflare Turnstile site key (public) */
+export const TURNSTILE_SITE_KEY =
+  (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined)?.trim() || '';
 
 export const MAINTAINER_NAME = 'Dario Guarascio';

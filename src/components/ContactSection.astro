@@ -1,10 +1,6 @@
 ---
-import {
-  CONTACT_EMAIL,
-  GITHUB_ISSUES_URL,
-  GITHUB_URL,
-  MAINTAINER_NAME,
-} from '../lib/site';
+import ContactForm from './ContactForm.astro';
+import { GITHUB_ISSUES_URL, GITHUB_URL, MAINTAINER_NAME } from '../lib/site';
 
 interface Props {
   compact?: boolean;
@@ -31,21 +27,13 @@ const { compact = false } = Astro.props;
         : `${MAINTAINER_NAME} cura Truffe.info come progetto open source. Scrivi per collaborazioni, media, bug del sito o proposte di miglioramento.`}
     </p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {CONTACT_EMAIL && (
-        <a href={`mailto:${CONTACT_EMAIL}`} class="contact-card group">
-          <span class="contact-card-icon" aria-hidden="true">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </span>
-          <span>
-            <span class="contact-card-title group-hover:text-trust transition-colors">Email</span>
-            <span class="contact-card-desc">{CONTACT_EMAIL}</span>
-          </span>
-        </a>
-      )}
+    {compact ? (
+      <a href="/contatti#contatto" class="btn-primary text-sm">Scrivici un messaggio</a>
+    ) : (
+      <ContactForm />
+    )}
 
+    <div class:list={['grid grid-cols-1 sm:grid-cols-2 gap-4', compact ? 'mt-8' : 'mt-10']}>
       <a href={GITHUB_ISSUES_URL} target="_blank" rel="noopener" class="contact-card group">
         <span class="contact-card-icon" aria-hidden="true">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -70,7 +58,7 @@ const { compact = false } = Astro.props;
         </span>
       </a>
 
-      <div class="contact-card contact-card--muted">
+      <div class="contact-card contact-card--muted sm:col-span-2">
         <span class="contact-card-icon" aria-hidden="true">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -79,7 +67,7 @@ const { compact = false } = Astro.props;
         <span>
           <span class="contact-card-title">Hai subito una truffa?</span>
           <span class="contact-card-desc">
-            Usa il <a href="/segnala" class="text-trust hover:underline">modulo segnalazione</a>, non questi contatti.
+            Usa il <a href="/segnala" class="text-trust hover:underline">modulo segnalazione</a>, non il form contatti.
           </span>
         </span>
       </div>

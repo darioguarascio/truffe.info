@@ -46,6 +46,7 @@ async function sendMail(options: {
   subject: string;
   text: string;
   html?: string;
+  replyTo?: string;
 }): Promise<boolean> {
   const transport = getTransporter();
 
@@ -58,6 +59,7 @@ async function sendMail(options: {
     await transport.sendMail({
       from: getFrom(),
       to: options.to,
+      replyTo: options.replyTo,
       subject: options.subject,
       text: options.text,
       html: options.html ?? options.text.replace(/\n/g, '<br>'),
@@ -202,5 +204,44 @@ export async function notifyUserSubmissionReceived(data: {
       'Guida rischi legali: https://truffe.info/truffe/esposizione-pubblica-truffatori-rischi-legali',
       'Linee guida: https://truffe.info/linee-guida',
     ].join('\n'),
+  });
+}
+
+function getContactInbox(): string | null {
+  return (
+    process.env.CONTACT_EMAIL?.trim() ||
+    process.env.ADMIN_EMAIL?.trim() ||
+    'ciao@truffe.info'
+  );
+}
+
+export async function notifyContactMessage(data: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<boolean> {
+  const inbox = getContactInbox();
+  if (!inbox) return false;
+
+  const body = [
+    'Nuovo messaggio dal modulo contatti di Truffe.info.',
+    '',
+    `Nome: ${data.name}`,
+    `Email: ${data.email}`,
+    `Oggetto: ${data.subject}`,
+    '',
+    'Messaggio:',
+    data.message,
+    '',
+    '---',
+    'Rispondi direttamente a questa email per contattare il mittente.',
+  ].join('\n');
+
+  return sendMail({
+    to: inbox,
+    subject: `[Truffe.info] Contatto: ${data.subject}`,
+    text: body,
+    replyTo: data.email,
   });
 }

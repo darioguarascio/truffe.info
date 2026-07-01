@@ -1,0 +1,114 @@
+---
+import { TURNSTILE_SITE_KEY } from '../lib/site';
+---
+
+<div id="contatto" class="contact-form-wrap">
+  <form id="contact-form" class="glass-card p-6 md:p-8 space-y-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="form-label" for="contact-name">Nome *</label>
+        <input type="text" id="contact-name" name="name" class="form-input" required maxlength="120" autocomplete="name" />
+      </div>
+      <div>
+        <label class="form-label" for="contact-email">Email *</label>
+        <input type="email" id="contact-email" name="email" class="form-input" required autocomplete="email" />
+      </div>
+    </div>
+
+    <div>
+      <label class="form-label" for="contact-subject">Oggetto *</label>
+      <input type="text" id="contact-subject" name="subject" class="form-input" required maxlength="200" />
+    </div>
+
+    <div>
+      <label class="form-label" for="contact-message">Messaggio *</label>
+      <textarea
+        id="contact-message"
+        name="message"
+        class="form-input min-h-[140px] resize-y"
+        required
+        minlength="20"
+        maxlength="5000"
+        placeholder="Collaborazioni, media, bug del sito, proposte..."
+      ></textarea>
+      <p class="form-hint">Minimo 20 caratteri. Non usare questo modulo per segnalare truffe subite.</p>
+    </div>
+
+    <!-- Honeypot -->
+    <div class="absolute -left-[9999px]" aria-hidden="true">
+      <label for="contact-company">Azienda</label>
+      <input type="text" id="contact-company" name="company" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {TURNSTILE_SITE_KEY ? (
+      <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="dark"></div>
+    ) : (
+      <p class="text-sm text-alert">Modulo contatti temporaneamente non disponibile.</p>
+    )}
+
+    <div id="contact-form-error" class="hidden p-3 bg-alert/10 border border-alert/20 text-alert text-sm rounded-xl"></div>
+
+    <button type="submit" class="btn-primary w-full" disabled={!TURNSTILE_SITE_KEY}>
+      Invia messaggio
+    </button>
+  </form>
+
+  <div id="contact-success" class="hidden glass-card p-8 text-center mt-6">
+    <div class="w-14 h-14 bg-trust/10 border border-trust/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <svg class="w-7 h-7 text-trust" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+    <h3 class="font-display text-xl font-semibold text-ink mb-2">Messaggio inviato</h3>
+    <p class="text-sm text-ink-muted">Grazie. Ti risponderemo il prima possibile all'indirizzo indicato.</p>
+  </div>
+</div>
+
+{TURNSTILE_SITE_KEY && (
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script define:vars={{ turnstileEnabled: Boolean(TURNSTILE_SITE_KEY) }}>
+  const form = document.getElementById('contact-form');
+  const formError = document.getElementById('contact-form-error');
+  const successMessage = document.getElementById('contact-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!turnstileEnabled) return;
+
+    formError.classList.add('hidden');
+    const btn = form.querySelector('button[type="submit"]');
+    btn.setAttribute('disabled', 'true');
+    btn.textContent = 'Invio in corso...';
+
+    const turnstileInput = form.querySelector('[name="cf-turnstile-response"]');
+    const turnstileToken = turnstileInput?.value ?? '';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('contact-name').value,
+          email: document.getElementById('contact-email').value,
+          subject: document.getElementById('contact-subject').value,
+          message: document.getElementById('contact-message').value,
+          company: document.getElementById('contact-company').value,
+          turnstile_token: turnstileToken,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Errore durante l\'invio');
+
+      form.classList.add('hidden');
+      successMessage.classList.remove('hidden');
+    } catch (err) {
+      formError.textContent = err instanceof Error ? err.message : 'Errore durante l\'invio';
+      formError.classList.remove('hidden');
+      btn.removeAttribute('disabled');
+      btn.textContent = 'Invia messaggio';
+      if (window.turnstile?.reset) window.turnstile.reset();
+    }
+  });
+</script>

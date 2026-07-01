@@ -32,7 +32,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            PUBLIC_CONTACT_EMAIL=${{ secrets.PUBLIC_CONTACT_EMAIL }}
+            PUBLIC_TURNSTILE_SITE_KEY=${{ secrets.PUBLIC_TURNSTILE_SITE_KEY }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
@@ -86,6 +86,8 @@ jobs:
             echo "SMTP_FROM=${{ secrets.SMTP_FROM || 'noreply@truffe.info' }}" >> .env
             echo "ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}" >> .env
             echo "ADMIN_TOKEN=${{ secrets.ADMIN_TOKEN }}" >> .env
+            echo "CONTACT_EMAIL=${{ secrets.CONTACT_EMAIL || 'ciao@truffe.info' }}" >> .env
+            echo "TURNSTILE_SECRET_KEY=${{ secrets.TURNSTILE_SECRET_KEY }}" >> .env
             docker-compose -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.prod.yml up -d
             docker image prune -f

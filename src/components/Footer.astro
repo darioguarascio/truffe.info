@@ -1,4 +1,6 @@
 ---
+import { GITHUB_URL } from '../lib/site';
+
 const year = new Date().getFullYear();
 ---
 
@@ -16,7 +18,7 @@ const year = new Date().getFullYear();
           contribuisce a proteggere gli altri.
         </p>
         <div class="flex gap-3 mt-6">
-          <span class="tag">Open source</span>
+          <a href={GITHUB_URL} target="_blank" rel="noopener" class="tag hover:border-trust/40 hover:bg-trust/10 transition-colors">Open source</a>
           <span class="tag">MIT</span>
         </div>
       </div>
